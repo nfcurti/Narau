@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/custom_dialog_layout_design_user_input"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Rubro:"
+            android:textSize="14dp"
+            android:layout_marginStart="4dp"
+            android:layout_weight="9"/>
+        <Spinner
+            android:id="@+id/profspinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/prof_array"
+            android:layout_weight="1"
+            ></Spinner>
+    </LinearLayout>
+
+
+
+    <EditText
+        android:id="@+id/topicinput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Matematica, Guitarra, Tenis, etc"
+        android:inputType="text" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/descinput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Escribe y presentate"
+            android:inputType="textMultiLine"
+            android:lines="5"/>
+        />
+    </android.support.design.widget.TextInputLayout>
+</LinearLayout>

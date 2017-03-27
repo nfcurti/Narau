@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal|center_vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/profileimage"
+            android:layout_width="100dp"
+            android:duplicateParentState="true"
+            android:layout_height="100dp"
+            android:src="@drawable/nico"
+            android:clickable="false"
+            app:riv_corner_radius="50dp"
+            />
+        <com.example.nicolas.narau.TextViewRoboto
+            android:id="@+id/name"
+            android:layout_marginTop="1dip"
+            android:layout_width="wrap_content"
+            android:clickable="false"
+            android:duplicateParentState="true"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:text="Woody Allen"/>
+        <com.example.nicolas.narau.TextViewRoboto
+            android:id="@+id/loc"
+            android:layout_width="wrap_content"
+            android:duplicateParentState="true"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:text="Buenos Aires, AR"
+            android:textSize="10dp"/>
+
+    </LinearLayout>
+

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/userdetail"
+    android:orientation="horizontal"
+    android:layout_gravity="center_vertical|center_horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/profileimage"
+        android:layout_width="100dp"
+        android:duplicateParentState="true"
+        android:layout_height="100dp"
+        android:src="@drawable/nico"
+        android:clickable="false"
+        app:riv_corner_radius="50dp"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <com.example.nicolas.narau.TextViewRobotoBold
+            android:id="@+id/tvname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Woody Allen"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="@color/white"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+                 <TextView
+                    android:id="@+id/fatype"
+                    android:layout_width="wrap_content"
+                     android:textColor="@color/white"
+                     android:padding="5dp"
+                     android:textSize="15dp"
+                     android:layout_height="wrap_content"
+                    android:text="@string/type"/>
+                <com.example.nicolas.narau.TextViewRoboto
+                    android:id="@+id/tvplace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Academico"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/faloc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+
+                android:textColor="@color/white"
+                android:padding="5dp"
+                android:text="@string/loc"/>
+                <com.example.nicolas.narau.TextViewRoboto
+                    android:id="@+id/tvtype"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Buenos Aires, AR"
+                    android:textSize="15dp"
+                    android:textColor="@color/white"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

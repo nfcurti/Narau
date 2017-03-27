@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:minWidth="300dp"
+    android:orientation="vertical"
+    android:gravity="center_horizontal|center_vertical">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/senderpic"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:riv_corner_radius="25dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/nico"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/roundedfb"
+        >
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.example.nicolas.narau.TextViewRoboto
+                android:id="@+id/reviewtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="Lorem ipsum dolor sit amet, consect adipiscing elit. Pellentesque semper vulputate aliquet. Maecenas ac ante ultricies, ornare purus in, rutrum justo. Sed congue purus nec condimentum pulvinar."
+                />
+
+        </ScrollView>
+
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="5"
+        android:gravity="center_horizontal"
+    >
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:id="@+id/leer"
+            android:clickable="true"
+            android:background="@drawable/rippleblack"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_height="fill_parent"
+            android:layout_weight="2.2">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:onClick="verreview"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="verreview"
+                    android:layout_gravity="center"
+                    android:textSize="24dp"
+                    android:text="{fa-rocket}"/>
+                <com.example.nicolas.narau.TextViewRoboto
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="18dp"
+                    android:onClick="verreview"
+                    android:text="Leer Review"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:id="@+id/ver"
+            android:clickable="true"
+            android:background="@drawable/rippleblack"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="5dip"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_weight="2.2">
+
+            <LinearLayout
+                android:id="@+id/dar"
+                android:onClick="darreview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:onClick="darreview"
+                    android:textSize="24dp"
+                    android:text="{fa-bold}"/>
+                <com.example.nicolas.narau.TextViewRoboto
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:onClick="darreview"
+                    android:textSize="18dp"
+                    android:text="Dar Review"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>

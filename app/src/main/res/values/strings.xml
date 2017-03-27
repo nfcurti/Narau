@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Narau</string>
+    <string name="action_settings">Settings</string>
+    <string name="loginpitch">El profesor que necesitas, a tu alcance.</string>
+
+    <string-array name="prof_array">
+        <item>Academico</item>
+        <item>Deportes</item>
+        <item>Musica</item>
+    </string-array>
+    <string name="title_activity_serinfo">serinfo</string>
+    <string name="type">{fa-bookmark-o}</string>
+    <string name="red">review</string>
+    <string name="loc">{fa-location-arrow}</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in lectus et massa congue rhoncus non in risus. Cras bibendum aliquam nibh, at pharetra nisl rhoncus at. Proin id varius elit, et faucibus nulla. Donec non congue lorem. Nunc vitae sollicitudin odio, eget tempus urna. Curabitur pellentesque tellus at elementum viverra. Pellentesque at dui placerat mi feugiat sagittis. Aenean sagittis fermentum nunc eleifend ullamcorper. Praesent varius lacus metus, nec aliquam urna euismod ut. Nullam eget cursus elit. Nulla ac mauris at lacus suscipit scelerisque. Aenean ac neque eget diam consequat porta. Nam at dui augue. Duis at metus sed leo.</string>
+</resources>

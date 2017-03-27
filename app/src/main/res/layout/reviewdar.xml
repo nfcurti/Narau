@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+
+    <LinearLayout
+        android:id="@+id/searchinglayout"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="15"
+        android:gravity="center_vertical">
+
+
+        <com.example.nicolas.narau.TextViewRoboto
+            android:id="@+id/searching"
+            android:layout_width="match_parent"
+            android:layout_weight="1.3"
+            android:layout_height="0dp"
+            android:text="Escribe Tu Review"
+            android:textSize="17dp"
+            android:background="@drawable/rounded_corner"
+            android:gravity="center"
+            android:textColor="@color/white"
+            />
+        <LinearLayout
+            android:id="@+id/dialoginfo"
+            android:layout_width="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            android:gravity="center">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:layout_marginRight="@dimen/fab_margin"
+                android:id="@+id/reviewdada"/>
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_spotify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#7ab800"
+                fancy:fb_focusColor="#9bd823"
+                fancy:fb_fontIconResource="&#xf04b;"
+                fancy:fb_iconPosition="left"
+                fancy:fb_radius="30dp"
+                fancy:fb_text="ENVIAR"
+                fancy:fb_textColor="#FFFFFF" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
