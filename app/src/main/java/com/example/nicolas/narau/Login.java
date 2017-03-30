@@ -3,25 +3,31 @@ package com.example.nicolas.narau;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 import com.eqot.fontawesome.FontAwesome;
-
-import mehdi.sakout.fancybuttons.FancyButton;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 public class Login extends AppCompatActivity {
 
+
+    public CallbackManager callbackManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             Window window = this.getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -30,6 +36,10 @@ public class Login extends AppCompatActivity {
         }
 
         super.onCreate(savedInstanceState);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+
         setContentView(R.layout.activity_login);
         FontAwesome.applyToAllViews(this, findViewById(R.id.loginmain));
         TextView txt = (TextView) findViewById(R.id.pitch2);
@@ -42,30 +52,38 @@ public class Login extends AppCompatActivity {
         narau.setCharacterDelay(250);
         narau.animateText("Narau");
 
+        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions("email");
 
+        callbackManager = CallbackManager.Factory.create();
 
-        FancyButton facebookLoginBtn = (FancyButton) findViewById(R.id.btn_fb);
-        facebookLoginBtn.setText("Entra con Facebook");
-        facebookLoginBtn.setBackgroundColor(Color.parseColor("#3b5998"));
-        facebookLoginBtn.setFocusBackgroundColor(Color.parseColor("#5474b8"));
-        facebookLoginBtn.setTextSize(17);
-        facebookLoginBtn.setRadius(5);
-        facebookLoginBtn.setIconResource("\uf082");
-        facebookLoginBtn.setIconPosition(FancyButton.POSITION_LEFT);
-        facebookLoginBtn.setFontIconSize(30);
-
-        facebookLoginBtn.setOnClickListener(new View.OnClickListener (){
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Login.this, MainActivity.class);
-                startActivity(intent);
+            public void onSuccess(LoginResult loginResult) {
+                Toast.makeText(Login.this, AccessToken.getCurrentAccessToken().getToken(),
+                        Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
             }
         });
 
 
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 
 }
 

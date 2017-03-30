@@ -2,7 +2,8 @@
     <string name="app_name">Narau</string>
     <string name="action_settings">Settings</string>
     <string name="loginpitch">El profesor que necesitas, a tu alcance.</string>
-
+    <string name="facebook_app_id">756246991207970</string>
+    <string name="fb_login_protocol_scheme">fb756246991207970</string>
     <string-array name="prof_array">
         <item>Academico</item>
         <item>Deportes</item>
