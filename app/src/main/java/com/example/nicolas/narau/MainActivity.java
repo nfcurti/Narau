@@ -12,7 +12,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.support.v7.widget.SearchView;
 import android.view.MenuInflater;
@@ -27,37 +30,90 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.nicolas.narau.Model.MyRecyclerViewAdapter;
+import com.example.nicolas.narau.Model.User;
+import com.example.nicolas.narau.Model.prof;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
+    public EditText InputTopic;
+    public EditText InputDesc;
+    public String InputRubro;
+    public int loginId;
+    MyRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RelativeLayout rowitem = (RelativeLayout) findViewById(R.id.itemrow);
+
+        //RelativeLayout rowitem = (RelativeLayout) findViewById(R.id.itemrow);
+        final View prompts = getLayoutInflater().inflate(R.layout.prompts, null);
 
 
-        View prompts = getLayoutInflater().inflate(R.layout.prompts, null);
-        Spinner spinner = (Spinner) prompts.findViewById(R.id.profspinner);
-        ArrayAdapter <CharSequence> adapter = ArrayAdapter.createFromResource(this ,R.array.prof_array, android.R.layout.simple_list_item_1);
-        spinner.setAdapter(adapter);
+        // data to populate the RecyclerView with
+        String[] data = {"1", "2", "3", "4"};
+
+        // set up the RecyclerView
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvNumbers);
+        int numberOfColumns = 2;
+        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+        adapter = new MyRecyclerViewAdapter(this, data);
+        recyclerView.setAdapter(adapter);
+
+
+        loginId = getIntent().getIntExtra("loginId", 0);
+        //BUILDER DEL FAB
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Spinner spinner = (Spinner) prompts.findViewById(R.id.profspinner);
+                ArrayAdapter <CharSequence> adapter = ArrayAdapter.createFromResource(MainActivity.this ,R.array.prof_array, android.R.layout.simple_list_item_1);
+                spinner.setAdapter(adapter);
                     View mView = getLayoutInflater().inflate(R.layout.prompts, null);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog));
-                builder.setView(mView);
-                builder.setTitle( Html.fromHtml("<font color='#000000'>Rellena los campos</font>"));
-                final EditText InputTopic = (EditText) mView.findViewById(R.id.topicinput);
-                builder
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog));
+                    builder.setView(mView);
+                    InputTopic = (EditText) mView.findViewById(R.id.topicinput);
+                    InputDesc = (EditText) mView.findViewById(R.id.descinput);
+                    InputRubro = spinner.getSelectedItem().toString();
+                    builder.setTitle( Html.fromHtml("<font color='#000000'>Rellena los campos</font>"));
+
+                    builder
                             .setCancelable(false)
                             .setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialogBox, int id) {
+
                                     Toast.makeText(getApplicationContext(), "Ahora apareces en la lista de profesores", Toast.LENGTH_LONG).show();
+                                    doBeProf();
                                 }
                             })
                             .setNegativeButton("Cancelar",
@@ -116,11 +172,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        //if (id == R.id.action_settings) {
-        //    return true;
-        //}
-
+        if (id == R.id.logout) {
+            LoginManager.getInstance().logOut();
+            Intent i = new Intent(MainActivity.this, Login.class);
+            startActivity(i);
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -128,4 +184,80 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, userinfo.class);
         startActivity(intent);
     }
+
+    private void doBeProf(){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://192.168.1.9:3000/user/"+loginId;
+        System.out.println(url);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject responseJSON = new JSONObject(response);
+                            int status = Integer.parseInt(responseJSON.getString("error"));
+                            if (status == 0) {
+                                String var = new String(responseJSON.getString("users"));
+                                System.out.println(var);
+                            } else {
+                                System.out.println("There may be an errieriwehiewew");
+                            }
+                        } catch (final JSONException e) {
+                            Log.e("ERROR", "Error parsing JSON: " + e.getMessage());
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                }
+                            });
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MainActivity.this,error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("rubro", InputRubro.toString());
+                params.put("info", InputTopic.getText().toString());
+                params.put("descr", InputDesc.getText().toString());
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+    }
+
+    public void randomprof(){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        final String url = "192.168.1.9:3000/user";
+        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>()
+                {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.getMessage());
+                    }
+                }
+        );
+
+        queue.add(getRequest);
+
+    }
+
+    public void onItemClick(View view, int position) {
+        Log.i("TAG", "You clicked number " + adapter.getItem(position) + ", which is at cell position " + position);
+    }
+
+
 }

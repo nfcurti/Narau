@@ -6,104 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+
+    android:gravity="center"
     tools:context="com.example.nicolas.narau.MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:background="@color/bggray"
-        android:weightSum="10">
 
-        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/tableLayout1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="9.5"
-            android:weightSum="10.5">
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"
-                ></TableRow>
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:weightSum="2.1"
-                android:gravity="center_horizontal"
-                android:layout_weight="4.5" >
-                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/itemrow"
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:clickable="true"
-                    android:onClick="userinfo"
-                    android:background="@drawable/ripplewhite"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1">
-                <include layout="@layout/infomain"></include>
-                </RelativeLayout>
-                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:orientation="vertical"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="5dip"
-                    android:clickable="true"
-                    android:background="@drawable/ripplewhite"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:layout_weight="1">
-                    <include layout="@layout/infomain"></include>
-                </RelativeLayout>
-            </TableRow>
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"
-                ></TableRow>
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:weightSum="2.1"
-                android:gravity="center_horizontal"
-                android:layout_weight="4.5" >
-                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:clickable="true"
-                    android:background="@drawable/ripplewhite"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1">
-                    <include layout="@layout/infomain"></include>
-                </RelativeLayout>
-                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                     android:orientation="vertical"
-                    android:clickable="true"
-                    android:background="@drawable/ripplewhite"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="5dip"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:layout_weight="1">
-                    <include layout="@layout/infomain"></include>
-                </RelativeLayout>
-            </TableRow>
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"
-                ></TableRow>
-
-        </TableLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvNumbers"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/fab"
+        android:layout_alignParentStart="true" />
 
 
 
-    </LinearLayout>
 
 
 
@@ -112,7 +29,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_circle_outline_white_24dp" />
+        android:src="@drawable/ic_add_circle_outline_white_24dp"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </android.support.design.widget.CoordinatorLayout>
