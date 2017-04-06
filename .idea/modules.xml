@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Narau.iml" filepath="$PROJECT_DIR$/Narau.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Narau-master.iml" filepath="$PROJECT_DIR$/Narau-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/volley/volley2.iml" filepath="$PROJECT_DIR$/volley/volley2.iml" />
     </modules>
