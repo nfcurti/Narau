@@ -20,81 +20,26 @@ public class User implements Serializable {
     public String name;
     public String img;
     public String facebook_id;
-    public int idprof;
-    public String rubro;
-    public String descr;
-    public String info;
-
-    public int getIdprof() {
-        return idprof;
-    }
-
-    public void setIdprof(int idprof) {
-        this.idprof = idprof;
-    }
-
-    public String getRubro() {
-        return rubro;
-    }
-
-    public void setRubro(String rubro) {
-        this.rubro = rubro;
-    }
-
-    public String getDescr() {
-        return descr;
-    }
-
-    public void setDescr(String descr) {
-        this.descr = descr;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
+    //public String token;
 
     public User(JSONObject json){
         try{
-            if(json.has("id")) {
-                this.id = json.getInt("id");
-            }
-            if(json.has("name")) {
-                this.name = json.getString("name");
-            }
-            if(json.has("img")) {
-                this.img = json.getString("img");
-            }
-            if(json.has("facebook_id")) {
-                this.facebook_id = json.getString("facebook_id");
-            }
-            this.idprof = json.getInt("idprof");
             this.id = json.getInt("id");
-            this.rubro = json.getString("rubro");
-            this.descr = json.getString("descr");
-            this.info = json.getString("info");
+            this.name = json.getString("username");
+            this.img = json.getString("img");
+            this.facebook_id = json.getString("facebook_id");
         }catch(JSONException e){
             Log.e("ERROR", "Error parsing JSON: " + e.getMessage());
         }
 
     }
 
-    public User(int id, String name, String img, String facebook_id,String info, String descr, String rubro, int idprof) {
+    public User(int id, String name, String img, String facebook_id) {
         this.id = id;
         this.name = name;
         this.img = img;
         this.facebook_id = facebook_id;
-        this.info = info;
-        this.descr = descr;
-        this.rubro = rubro;
-        this.id = id;
-        this.idprof = idprof;
     }
-
-
 
     public int getId() {
         return id;
