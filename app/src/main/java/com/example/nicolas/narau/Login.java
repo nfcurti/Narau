@@ -10,14 +10,12 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.nicolas.narau.Model.User;
@@ -119,7 +117,7 @@ public class Login extends AppCompatActivity {
 
     private void dologin(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.9:3000/login";
+        String url = "http://192.168.1.7:3000/login";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
             new Response.Listener<String>() {
                 @Override

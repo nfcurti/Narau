@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by Nicolas on 2/4/2017.
  */
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
+public class searchAdapter extends RecyclerView.Adapter<searchAdapter.ViewHolder> {
 
     private ArrayList<User> mData = new ArrayList<>();
     private LayoutInflater mInflater;
@@ -26,7 +26,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
 
     // data is passed into the constructor
-        public MyRecyclerViewAdapter(Context context, ArrayList<User> data) {
+    public searchAdapter(Context context, ArrayList<User> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }

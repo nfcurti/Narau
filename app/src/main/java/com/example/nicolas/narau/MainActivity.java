@@ -1,11 +1,8 @@
 package com.example.nicolas.narau;
 
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -25,66 +22,51 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.nicolas.narau.Model.MyRecyclerViewAdapter;
 import com.example.nicolas.narau.Model.User;
-import com.example.nicolas.narau.Model.prof;
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener{
     public EditText InputTopic;
     public EditText InputDesc;
     public String InputRubro;
     public int loginId;
     MyRecyclerViewAdapter adapter;
+    public ArrayList<User> arrayUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        //RelativeLayout rowitem = (RelativeLayout) findViewById(R.id.itemrow);
+        arrayUsers = new ArrayList<>();
         final View prompts = getLayoutInflater().inflate(R.layout.prompts, null);
 
-
-        // data to populate the RecyclerView with
-        String[] data = {"1", "2", "3", "4"};
 
         // set up the RecyclerView
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvNumbers);
         int numberOfColumns = 2;
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-        adapter = new MyRecyclerViewAdapter(this, data);
+        adapter = new MyRecyclerViewAdapter(this, arrayUsers);
         recyclerView.setAdapter(adapter);
 
 
@@ -144,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
         Typeface roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
         Typeface robotobold = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Bold.ttf");
         title.setTypeface(ltm);
+
+        randomprof();
     }
 
     @Override
@@ -157,7 +141,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //  query
-                searchView.clearFocus();
+                //TODO: No funciona clearFocus
+//                searchView.clearFocus();
                 return true;
             }
             @Override
@@ -187,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void doBeProf(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.9:3000/user/"+loginId;
+        String url = "http://192.168.1.7:3000/user/"+loginId;
         System.out.println(url);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -232,14 +217,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void randomprof(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "192.168.1.9:3000/user";
-        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>()
+        final String url = "http://192.168.1.7:3000/user/random";
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>()
                 {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         // display response
                         Log.d("Response", response.toString());
+                        try {
+                            if (response.has("users")) {
+                                JSONArray usersArray = response.getJSONArray("users");
+
+                                arrayUsers.clear();
+                                for (int i=0;i<usersArray.length();i++) {
+                                    arrayUsers.add(new User(usersArray.getJSONObject(i)));
+                                }
+                                adapter.notifyDataSetChanged();
+                            }
+                        }catch(JSONException e){
+                            Log.e("ERROR", e.getMessage());
+                        }
                     }
                 },
                 new Response.ErrorListener()
