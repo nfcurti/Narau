@@ -117,7 +117,7 @@ public class Login extends AppCompatActivity {
 
     private void dologin(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.7:3000/login";
+        String url = "http://192.168.1.9:3000/login";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
             new Response.Listener<String>() {
                 @Override

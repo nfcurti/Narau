@@ -25,37 +25,6 @@ public class User implements Serializable {
     public String descr;
     public String info;
 
-    public int getIdprof() {
-        return idprof;
-    }
-
-    public void setIdprof(int idprof) {
-        this.idprof = idprof;
-    }
-
-    public String getRubro() {
-        return rubro;
-    }
-
-    public void setRubro(String rubro) {
-        this.rubro = rubro;
-    }
-
-    public String getDescr() {
-        return descr;
-    }
-
-    public void setDescr(String descr) {
-        this.descr = descr;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
 
     public User(JSONObject json){
         try{
@@ -71,11 +40,13 @@ public class User implements Serializable {
             if(json.has("facebook_id")) {
                 this.facebook_id = json.getString("facebook_id");
             }
-            this.idprof = json.getInt("idprof");
-            this.id = json.getInt("id");
-            this.rubro = json.getString("rubro");
-            this.descr = json.getString("descr");
-            this.info = json.getString("info");
+            if (json.has("idprof")){
+                this.idprof = json.getInt("idprof");
+                this.id = json.getInt("id");
+                this.rubro = json.getString("rubro");
+                this.descr = json.getString("descr");
+                this.info = json.getString("info");
+            }
         }catch(JSONException e){
             Log.e("ERROR", "Error parsing JSON: " + e.getMessage());
         }
@@ -90,7 +61,6 @@ public class User implements Serializable {
         this.info = info;
         this.descr = descr;
         this.rubro = rubro;
-        this.id = id;
         this.idprof = idprof;
     }
 
@@ -126,6 +96,38 @@ public class User implements Serializable {
 
     public void setFacebook_id(String facebook_id) {
         this.facebook_id = facebook_id;
+    }
+
+    public int getIdprof() {
+        return idprof;
+    }
+
+    public void setIdprof(int idprof) {
+        this.idprof = idprof;
+    }
+
+    public String getRubro() {
+        return rubro;
+    }
+
+    public void setRubro(String rubro) {
+        this.rubro = rubro;
+    }
+
+    public String getDescr() {
+        return descr;
+    }
+
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
 }

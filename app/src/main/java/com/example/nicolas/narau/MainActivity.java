@@ -1,5 +1,7 @@
 package com.example.nicolas.narau;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
@@ -52,12 +54,15 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
     public int loginId;
     MyRecyclerViewAdapter adapter;
     public ArrayList<User> arrayUsers;
+    public String query;
+    public SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         arrayUsers = new ArrayList<>();
         final View prompts = getLayoutInflater().inflate(R.layout.prompts, null);
 
@@ -79,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                 Spinner spinner = (Spinner) prompts.findViewById(R.id.profspinner);
                 ArrayAdapter <CharSequence> adapter = ArrayAdapter.createFromResource(MainActivity.this ,R.array.prof_array, android.R.layout.simple_list_item_1);
                 spinner.setAdapter(adapter);
-                    View mView = getLayoutInflater().inflate(R.layout.prompts, null);
+                View mView = getLayoutInflater().inflate(R.layout.prompts, null);
 
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog));
@@ -113,14 +118,8 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
 
         });
-
-
-
-
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
-
-
         TextView title = (TextView) findViewById(R.id.title);
         Typeface ltm = Typeface.createFromAsset(getAssets(), "fonts/LieToMe.otf");
         Typeface roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
@@ -134,23 +133,28 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
+            searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                //  query
-                //TODO: No funciona clearFocus
-//                searchView.clearFocus();
-                return true;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String s) {
+                //Log.e("onQueryTextChange", "called");
                 return false;
             }
+
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+
+                query = searchView.getQuery().toString();
+                Toast.makeText(MainActivity.this, query, Toast.LENGTH_LONG);
+                search();
+                return false;
+            }
+
         });
-        return super.onCreateOptionsMenu(menu);
+
+
+        return true;
     }
 
     @Override
@@ -162,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
             Intent i = new Intent(MainActivity.this, Login.class);
             startActivity(i);
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -172,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     private void doBeProf(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.7:3000/user/"+loginId;
+        String url = "http://192.168.1.9:3000/user/"+loginId;
         System.out.println(url);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -217,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     public void randomprof(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.7:3000/user/random";
+        final String url = "http://192.168.1.9:3000/user/random";
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -253,9 +258,54 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     }
 
+
+    public void search(){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        final String url = "http://192.168.1.9:3000/search/"+query;
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        try {
+                            if (response.has("search")) {
+                                JSONArray usersArray = response.getJSONArray("search");
+
+                                arrayUsers.clear();
+                                for (int i=0;i<usersArray.length();i++) {
+                                    arrayUsers.add(new User(usersArray.getJSONObject(i)));
+                                }
+                            }
+                            adapter.notifyDataSetChanged();
+                        }catch(JSONException e){
+                            Log.e("ERROR", e.getMessage());
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.getMessage());
+                    }
+                }
+        );
+
+        queue.add(getRequest);
+
+    }
+
     public void onItemClick(View view, int position) {
         Log.i("TAG", "You clicked number " + adapter.getItem(position) + ", which is at cell position " + position);
     }
 
+    @Override
+    public boolean onSearchRequested() {
+        Bundle appData = new Bundle();
+        appData.putString("data", query);
+        return true;
+    }
 
 }

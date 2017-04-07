@@ -1,5 +1,7 @@
 package com.example.nicolas.narau;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -22,8 +24,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.eqot.fontawesome.FontAwesome;
+import com.example.nicolas.narau.Model.User;
+
+import java.util.ArrayList;
 
 public class userinfo extends AppCompatActivity {
+
+
+    public ArrayList<User> arrayUsers;
+    public String query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,21 +68,13 @@ public class userinfo extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
 
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                searchView.clearFocus();
-                return true;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo( searchManager.getSearchableInfo(getComponentName()) );
+        query = searchView.getQuery().toString();
+
+        return true;
     }
 
     public void showChangeLangDialog() {
