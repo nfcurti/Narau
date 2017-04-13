@@ -21,7 +21,8 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/ActionBar" />
+            android:theme="@style/ActionBar"
+            />
         <activity
             android:name=".Login"
             android:screenOrientation="sensorPortrait"

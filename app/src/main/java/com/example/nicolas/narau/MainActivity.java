@@ -4,6 +4,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -56,31 +58,66 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
     public ArrayList<User> arrayUsers;
     public String query;
     public SearchView searchView;
+    private static boolean RUN_ONCE = true;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         arrayUsers = new ArrayList<>();
-        final View prompts = getLayoutInflater().inflate(R.layout.prompts, null);
+        setcards();
+        loginId = getIntent().getIntExtra("loginId", 0);
 
 
-        // set up the RecyclerView
+        SharedPreferences.Editor editor = getSharedPreferences("id", MODE_PRIVATE).edit();
+        editor.putInt("id", loginId);
+        editor.commit();
+
+        fab();
+        SupportActionBar();
+        randomprof();
+
+
+        TextView title = (TextView) findViewById(R.id.title);
+        Typeface ltm = Typeface.createFromAsset(getAssets(), "fonts/LieToMe.otf");
+        Typeface roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+        Typeface robotobold = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Bold.ttf");
+        title.setTypeface(ltm);
+
+        final SwipeRefreshLayout refresh = (SwipeRefreshLayout) findViewById(R.id.refresh);
+
+        refresh.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        randomprof();
+                        refresh.setRefreshing(false);
+
+                    }
+                }
+        );
+
+
+    }
+
+    public void setcards(){
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvNumbers);
         int numberOfColumns = 2;
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
         adapter = new MyRecyclerViewAdapter(this, arrayUsers);
         recyclerView.setAdapter(adapter);
+    }
 
-
-        loginId = getIntent().getIntExtra("loginId", 0);
+    public void fab(){
         //BUILDER DEL FAB
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final View prompts = getLayoutInflater().inflate(R.layout.prompts, null);
                 Spinner spinner = (Spinner) prompts.findViewById(R.id.profspinner);
                 ArrayAdapter <CharSequence> adapter = ArrayAdapter.createFromResource(MainActivity.this ,R.array.prof_array, android.R.layout.simple_list_item_1);
                 spinner.setAdapter(adapter);
@@ -88,46 +125,45 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog));
-                    builder.setView(mView);
-                    InputTopic = (EditText) mView.findViewById(R.id.topicinput);
-                    InputDesc = (EditText) mView.findViewById(R.id.descinput);
-                    InputRubro = spinner.getSelectedItem().toString();
-                    builder.setTitle( Html.fromHtml("<font color='#000000'>Rellena los campos</font>"));
+                builder.setView(mView);
+                InputTopic = (EditText) mView.findViewById(R.id.topicinput);
+                InputDesc = (EditText) mView.findViewById(R.id.descinput);
+                InputRubro = spinner.getSelectedItem().toString();
+                builder.setTitle( Html.fromHtml("<font color='#000000'>Rellena los campos</font>"));
 
-                    builder
-                            .setCancelable(false)
-                            .setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialogBox, int id) {
+                builder
+                        .setCancelable(false)
+                        .setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
 
-                                    Toast.makeText(getApplicationContext(), "Ahora apareces en la lista de profesores", Toast.LENGTH_LONG).show();
-                                    doBeProf();
-                                }
-                            })
-                            .setNegativeButton("Cancelar",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialogBox, int id) {
-                                            dialogBox.cancel();
-                                        }
-                                    });
+                                Toast.makeText(getApplicationContext(), "Ahora apareces en la lista de profesores", Toast.LENGTH_LONG).show();
+                                doBeProf();
+                            }
+                        })
+                        .setNegativeButton("Cancelar",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialogBox, int id) {
+                                        dialogBox.cancel();
+                                    }
+                                });
 
 
-                    AlertDialog alertDialogAndroid = builder.create();
-                    alertDialogAndroid.show();
+                AlertDialog alertDialogAndroid = builder.create();
+                alertDialogAndroid.show();
 
             }
 
 
         });
+
+    }
+
+    public void SupportActionBar(){
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
-        TextView title = (TextView) findViewById(R.id.title);
-        Typeface ltm = Typeface.createFromAsset(getAssets(), "fonts/LieToMe.otf");
-        Typeface roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
-        Typeface robotobold = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Bold.ttf");
-        title.setTypeface(ltm);
-
-        randomprof();
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -177,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     private void doBeProf(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.9:3000/user/"+loginId;
+        String url = "http://192.168.1.7:3000/user/"+loginId;
         System.out.println(url);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -222,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     public void randomprof(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.9:3000/user/random";
+        final String url = "http://192.168.1.7:3000/user/random";
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -258,10 +294,9 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     }
 
-
     public void search(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.9:3000/search/"+query;
+        final String url = "http://192.168.1.7:3000/search/"+query;
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -306,6 +341,11 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
         Bundle appData = new Bundle();
         appData.putString("data", query);
         return true;
+    }
+
+    @Override
+    public void onBackPressed(){
+        moveTaskToBack(true);
     }
 
 }

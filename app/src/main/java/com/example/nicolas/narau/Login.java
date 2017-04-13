@@ -38,49 +38,26 @@ import java.util.Map;
 
 public class Login extends AppCompatActivity {
 
-    public int thisUserId;
-
     public CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (android.os.Build.VERSION.SDK_INT >= 21) {
-            Window window = this.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(this.getResources().getColor(R.color.bgred));
-        }
-        super.onCreate(savedInstanceState);
-        checklogin(AccessToken.getCurrentAccessToken());
-
-
+        validatesdk();
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
+        super.onCreate(savedInstanceState);
+        checklogin(AccessToken.getCurrentAccessToken());
         setContentView(R.layout.activity_login);
-        FontAwesome.applyToAllViews(this, findViewById(R.id.loginmain));
-        TextView txt = (TextView) findViewById(R.id.pitch2);
-        Typewriter narau = (Typewriter) findViewById(R.id.narau);
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/AvenirLTStd-Roman.otf");
-        Typeface ltm = Typeface.createFromAsset(getAssets(), "fonts/LieToMe.otf");
-        txt.setTypeface(font);
-        narau.setTypeface(ltm);
-
-        narau.setCharacterDelay(250);
-        narau.animateText("Narau");
+        typefacesandfont();
 
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("email");
-
-
 
         callbackManager = CallbackManager.Factory.create();
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-
                 dologin();
-
-
             }
 
             @Override
@@ -90,11 +67,31 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
+            System.out.print("There was an error");
             }
         });
+    }
 
+    public void typefacesandfont(){
+        FontAwesome.applyToAllViews(this, findViewById(R.id.loginmain));
+        TextView txt = (TextView) findViewById(R.id.pitch2);
+        Typewriter narau = (Typewriter) findViewById(R.id.narau);
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/AvenirLTStd-Roman.otf");
+        Typeface ltm = Typeface.createFromAsset(getAssets(), "fonts/LieToMe.otf");
+        txt.setTypeface(font);
+        narau.setTypeface(ltm);
+        narau.setCharacterDelay(250);
+        narau.animateText("Narau");
 
+    }
+
+    public void validatesdk(){
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.bgred));
+        }
     }
 
     @Override
@@ -117,7 +114,7 @@ public class Login extends AppCompatActivity {
 
     private void dologin(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.9:3000/login";
+        String url = "http://192.168.1.7:3000/login";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
             new Response.Listener<String>() {
                 @Override
@@ -127,10 +124,12 @@ public class Login extends AppCompatActivity {
                         int status = Integer.parseInt(responseJSON.getString("error"));
                         if (status == 0) {
                             final User thisUser = new User(responseJSON.getJSONObject("userfb"));
-                            thisUserId = responseJSON.getJSONObject("userfb").getInt("id");
                             Bundle bundle = new Bundle();
-                            bundle.putInt("loginId", thisUserId);
-
+                            bundle.putInt("loginId", thisUser.getId());
+                            for (String key : bundle.keySet())
+                            {
+                                Log.d("Bundle Debug", key + " = \"" + bundle.get(key) + "\"");
+                            }
 
 
                             Intent i = new Intent(Login.this, MainActivity.class);

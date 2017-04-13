@@ -6,11 +6,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.nicolas.narau.MainActivity;
 import com.example.nicolas.narau.R;
 import com.example.nicolas.narau.userinfo;
+import com.squareup.picasso.Picasso;
 
+import java.io.Console;
 import java.util.ArrayList;
 
 /**
@@ -21,9 +27,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private ArrayList<User> mData = new ArrayList<>();
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
-    private  Context context;
-
-
+    private Context context;
 
     // data is passed into the constructor
         public MyRecyclerViewAdapter(Context context, ArrayList<User> data) {
@@ -41,9 +45,25 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     // binds the data to the textview in each cell
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.myTextView.setText(mData.get(position).getName());
         holder.rubro.setText(mData.get(position).getRubro());
+
+        String imageUri = mData.get(position).getimg();
+
+        Picasso.with(context).load(imageUri).into(holder.image);
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, userinfo.class);
+                i.putExtra("profid", mData.get(position).getIdprof());
+
+                view.getContext().startActivity(i);
+            }
+        });
+
     }
 
     // total number of cells
@@ -61,14 +81,20 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView myTextView;
         public TextView rubro;
+        public ImageView image;
 
         public ViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
+            image = (ImageView) itemView.findViewById(R.id.profileimage);
             myTextView = (TextView) itemView.findViewById(R.id.name);
             rubro = (TextView) itemView.findViewById(R.id.loc);
             itemView.setOnClickListener(this);
+
+
         }
+
+
 
         @Override
         public void onClick(View view) {
@@ -93,5 +119,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
 
     }
+
+
 }
 

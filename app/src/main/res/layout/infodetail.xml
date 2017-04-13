@@ -45,7 +45,7 @@
                      android:layout_height="wrap_content"
                     android:text="@string/type"/>
                 <com.example.nicolas.narau.TextViewRoboto
-                    android:id="@+id/tvplace"
+                    android:id="@+id/tvrubro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Academico"
