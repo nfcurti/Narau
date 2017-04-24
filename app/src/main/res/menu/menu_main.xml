@@ -3,11 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.nicolas.narau.MainActivity">
 
-    <item android:id="@+id/logout"
-        android:title="Logout"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_power_settings_new_white_24dp"
-        />
+
 
 
     <item android:id="@+id/search"
@@ -17,4 +13,6 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="collapseActionView|ifRoom"
         android:actionViewClass="android.widget.SearchView" />
+
+
 </menu>

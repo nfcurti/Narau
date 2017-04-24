@@ -8,6 +8,7 @@
         <item>Academico</item>
         <item>Deportes</item>
         <item>Musica</item>
+        <item>Idiomas</item>
     </string-array>
     <string name="title_activity_serinfo">serinfo</string>
     <string name="type">{fa-bookmark-o}</string>

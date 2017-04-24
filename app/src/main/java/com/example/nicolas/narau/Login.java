@@ -1,7 +1,10 @@
 package com.example.nicolas.narau;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,6 +60,7 @@ public class Login extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
                 dologin();
             }
 
@@ -114,27 +118,30 @@ public class Login extends AppCompatActivity {
 
     private void dologin(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.7:3000/login";
+        String url = "http://192.168.1.5:3000/login";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
             new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     try {
                         JSONObject responseJSON = new JSONObject(response);
+                        System.out.print(responseJSON);
                         int status = Integer.parseInt(responseJSON.getString("error"));
                         if (status == 0) {
                             final User thisUser = new User(responseJSON.getJSONObject("userfb"));
-                            Bundle bundle = new Bundle();
-                            bundle.putInt("loginId", thisUser.getId());
-                            for (String key : bundle.keySet())
-                            {
-                                Log.d("Bundle Debug", key + " = \"" + bundle.get(key) + "\"");
-                            }
+
+                            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Login.this);
+                            SharedPreferences.Editor editor = sharedPref.edit();
+
+                            //Bundle bundle = new Bundle();
+                            editor.putInt("loginId", thisUser.getId());
+                            editor.putString("img", thisUser.getimg());
+                            editor.putString("name", thisUser.getName());
+                            editor.commit();
 
 
                             Intent i = new Intent(Login.this, MainActivity.class);
-                            i.putExtras(bundle);
-
+                           // i.putExtras(bundle);
                             startActivity(i);
 
                         } else {

@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Rubro:"
+            android:text="Categoria:"
             android:textSize="14dp"
             android:layout_marginStart="4dp"
             android:layout_weight="9"/>
@@ -25,9 +25,10 @@
             android:id="@+id/profspinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/prof_array"
             android:layout_weight="1"
-            ></Spinner>
+            android:spinnerMode="dropdown"
+            android:clickable="true"
+            />
     </LinearLayout>
 
 

@@ -5,6 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.graphics.Typeface;
@@ -16,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.support.v7.widget.SearchView;
@@ -23,16 +32,20 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -40,6 +53,10 @@ import com.android.volley.toolbox.Volley;
 import com.example.nicolas.narau.Model.MyRecyclerViewAdapter;
 import com.example.nicolas.narau.Model.User;
 import com.facebook.login.LoginManager;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
     public EditText InputDesc;
     public String InputRubro;
     public int loginId;
+    public String loginImg;
+    public String loginName;
     MyRecyclerViewAdapter adapter;
     public ArrayList<User> arrayUsers;
     public String query;
@@ -67,10 +86,25 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        View View = getLayoutInflater().inflate(R.layout.header, null);
+        final ImageView imgfinal = (ImageView) View.findViewById(R.id.profileimage);
+        final TextViewRoboto tvnamefinal = (TextViewRoboto) View.findViewById(R.id.tvname);
+
+
         arrayUsers = new ArrayList<>();
         setcards();
-        loginId = getIntent().getIntExtra("loginId", 0);
 
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        loginId = sharedPref.getInt("loginId", 0);
+        loginImg = sharedPref.getString("img", "Nope");
+        loginName = sharedPref.getString("name", "Nope");
+
+
+
+
+
+
+        setNavigationDrawer();
 
         SharedPreferences.Editor editor = getSharedPreferences("id", MODE_PRIVATE).edit();
         editor.putInt("id", loginId);
@@ -79,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
         fab();
         SupportActionBar();
         randomprof();
-
 
         TextView title = (TextView) findViewById(R.id.title);
         Typeface ltm = Typeface.createFromAsset(getAssets(), "fonts/LieToMe.otf");
@@ -101,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
         );
 
 
+
     }
 
     public void setcards(){
@@ -113,22 +147,52 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     public void fab(){
         //BUILDER DEL FAB
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton anotherfab = (FloatingActionButton) findViewById(R.id.anotherfab);
+        fab.setVisibility(View.VISIBLE );
+        anotherfab.setVisibility(View.INVISIBLE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final View prompts = getLayoutInflater().inflate(R.layout.prompts, null);
-                Spinner spinner = (Spinner) prompts.findViewById(R.id.profspinner);
-                ArrayAdapter <CharSequence> adapter = ArrayAdapter.createFromResource(MainActivity.this ,R.array.prof_array, android.R.layout.simple_list_item_1);
-                spinner.setAdapter(adapter);
                 View mView = getLayoutInflater().inflate(R.layout.prompts, null);
-
+                fab.setVisibility(View.INVISIBLE );
+                anotherfab.setVisibility(View.VISIBLE);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog));
                 builder.setView(mView);
                 InputTopic = (EditText) mView.findViewById(R.id.topicinput);
                 InputDesc = (EditText) mView.findViewById(R.id.descinput);
-                InputRubro = spinner.getSelectedItem().toString();
+
+                final Spinner spinner = (Spinner) mView.findViewById(R.id.profspinner);
+
+                ArrayList<String> rubros = new ArrayList<String>();
+                rubros.add("Academico");
+                rubros.add("Deportes");
+                rubros.add("Musica");
+                rubros.add("Idiomas");
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_spinner_item, rubros);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                //ArrayAdapter <CharSequence> adapter = ArrayAdapter.createFromResource(MainActivity.this ,R.array.prof_array, android.R.layout.simple_list_item_1);
+                spinner.setAdapter(adapter);
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        InputRubro=spinner.getItemAtPosition(position).toString();
+                        System.out.println(InputRubro);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+
+
+
                 builder.setTitle( Html.fromHtml("<font color='#000000'>Rellena los campos</font>"));
 
                 builder
@@ -136,13 +200,17 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                         .setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialogBox, int id) {
 
-                                Toast.makeText(getApplicationContext(), "Ahora apareces en la lista de profesores", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Ahora apareces como profesor", Toast.LENGTH_LONG).show();
+
+
                                 doBeProf();
                             }
                         })
                         .setNegativeButton("Cancelar",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialogBox, int id) {
+                                        fab.setVisibility(View.VISIBLE );
+                                        anotherfab.setVisibility(View.INVISIBLE);
                                         dialogBox.cancel();
                                     }
                                 });
@@ -151,9 +219,34 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                 AlertDialog alertDialogAndroid = builder.create();
                 alertDialogAndroid.show();
 
+
             }
 
 
+        });
+
+        anotherfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog));
+                builder
+                        .setTitle("Eliminar Perfil de Profesor?")
+                        .setMessage("Solo eliminaras tu perfil de profesor, pero podras volver a crearlo otra vez.")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                doNotAnymore();
+                                fab.setVisibility(View.VISIBLE );
+                                anotherfab.setVisibility(View.GONE);
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
         });
 
     }
@@ -178,6 +271,8 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                 return false;
             }
 
+
+
             @Override
             public boolean onQueryTextSubmit(String s) {
 
@@ -195,13 +290,6 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.logout) {
-            LoginManager.getInstance().logOut();
-            Intent i = new Intent(MainActivity.this, Login.class);
-            startActivity(i);
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -213,8 +301,8 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     private void doBeProf(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.7:3000/user/"+loginId;
-        System.out.println(url);
+        String url = "http://192.168.1.5:3000/user/"+loginId;
+        System.out.print(url);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -224,7 +312,6 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                             int status = Integer.parseInt(responseJSON.getString("error"));
                             if (status == 0) {
                                 String var = new String(responseJSON.getString("users"));
-                                System.out.println(var);
                             } else {
                                 System.out.println("There may be an errieriwehiewew");
                             }
@@ -256,9 +343,28 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
         queue.add(stringRequest);
     }
 
+    private void doNotAnymore(){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://192.168.1.5:3000/prof/"+loginId;
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        adapter.notifyDataSetChanged();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MainActivity.this,error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
+        queue.add(stringRequest);
+    }
+
     public void randomprof(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.7:3000/user/random";
+        final String url = "http://192.168.1.5:3000/user/random";
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -296,7 +402,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     public void search(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.7:3000/search/"+query;
+        final String url = "http://192.168.1.5:3000/search/"+query;
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -345,7 +451,71 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     @Override
     public void onBackPressed(){
-        moveTaskToBack(true);
+
+        DrawerLayout layout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        if (layout.isDrawerOpen(GravityCompat.START)) {
+            layout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+            moveTaskToBack(true);
+        }
+
+
     }
+
+    private void setNavigationDrawer() {
+        final DrawerLayout dLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navView = (NavigationView) findViewById(R.id.navigation);
+
+        View view = navView.inflateHeaderView(R.layout.header);
+
+        ImageView img = (ImageView) view.findViewById(R.id.profileimage);
+        TextViewRoboto tvr = (TextViewRoboto) view.findViewById(R.id.tvname);
+        tvr.setText(loginName);
+
+        Picasso.with(getApplicationContext()).load(loginImg).into(img);
+
+
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                int itemId = menuItem.getItemId();
+                if (itemId == R.id.logout) {
+                    dLayout.closeDrawers();
+                    LoginManager.getInstance().logOut();
+                    Intent i = new Intent(MainActivity.this, Login.class);
+                    startActivity(i);
+                }
+
+                if (itemId == R.id.academico) {
+                    dLayout.closeDrawers();
+                    query = "academico";
+                    search();
+                }
+                if (itemId == R.id.sports) {
+                    dLayout.closeDrawers();
+                    query = "Deportes";
+                    search();
+                }
+                if (itemId == R.id.Music) {
+                    dLayout.closeDrawers();
+                    query = "Musica";
+                    search();
+                }
+                if (itemId == R.id.Languages) {
+                    dLayout.closeDrawers();
+                    query = "Idiomas";
+                    search();
+                }
+
+
+
+                return false;
+            }
+        });
+    }
+
+
+
 
 }

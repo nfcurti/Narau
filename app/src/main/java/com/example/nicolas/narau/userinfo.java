@@ -79,12 +79,12 @@ public class userinfo extends AppCompatActivity {
 
         setContentView(R.layout.activity_userinfo);
 
-        tvnamefinal = (TextViewRobotoBold) findViewById(R.id.tvname);
+
         tvtypefinal = (TextViewRoboto) findViewById(R.id.info);
         tvrubrofinal = (TextViewRoboto) findViewById(R.id.tvrubro);
-         infofinal= (TextViewRoboto) findViewById(R.id.tvtype);
+        infofinal= (TextViewRoboto) findViewById(R.id.tvtype);
         imgfinal = (ImageView) findViewById(R.id.profileimage);
-
+        tvnamefinal = (TextViewRobotoBold) findViewById(R.id.tvname);
         doBringInfo();
 
         FontAwesome.applyToAllViews(this, findViewById(R.id.main));
@@ -176,7 +176,8 @@ public class userinfo extends AppCompatActivity {
 
     private void doBringInfo(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.7:3000/prof/" + getIntent().getExtras().getInt("profid");
+
+        String url = "http://192.168.1.5:3000/prof/" + getIntent().getExtras().getInt("profid");
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -218,7 +219,7 @@ public class userinfo extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("id", MODE_PRIVATE);
         int id = prefs.getInt("id", 0);
 
-        String url = "http://192.168.1.7:3000/review/"+id+"/"+getIntent().getExtras().getInt("profid");
+        String url = "http://192.168.1.5:3000/review/"+id+"/"+getIntent().getExtras().getInt("profid");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -258,7 +259,7 @@ public class userinfo extends AppCompatActivity {
 
     public void doBringReview(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.7:3000/review/"+getIntent().getExtras().getInt("profid");
+        final String url = "http://192.168.1.5:3000/review/"+getIntent().getExtras().getInt("profid");
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
                 {
