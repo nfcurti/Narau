@@ -15,4 +15,7 @@
     <string name="red">review</string>
     <string name="loc">{fa-location-arrow}</string>
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in lectus et massa congue rhoncus non in risus. Cras bibendum aliquam nibh, at pharetra nisl rhoncus at. Proin id varius elit, et faucibus nulla. Donec non congue lorem. Nunc vitae sollicitudin odio, eget tempus urna. Curabitur pellentesque tellus at elementum viverra. Pellentesque at dui placerat mi feugiat sagittis. Aenean sagittis fermentum nunc eleifend ullamcorper. Praesent varius lacus metus, nec aliquam urna euismod ut. Nullam eget cursus elit. Nulla ac mauris at lacus suscipit scelerisque. Aenean ac neque eget diam consequat porta. Nam at dui augue. Duis at metus sed leo.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

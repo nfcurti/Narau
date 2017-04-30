@@ -16,14 +16,11 @@ public class IntroActivity extends AppIntro2 {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Note here that we DO NOT use setContentView();
-
+        s1 s1= new s1();
 
 
-        // Instead of fragments, you can also use our default slide
-        // Just set a title, description, background and image. AppIntro will do the rest.
-        addSlide(AppIntro2Fragment.newInstance("Pantalla Principal", "Aqui veras perfiles de profesores elegidos al azar y el boton central con el que podras aparecer como profesor.", R.drawable.is1, getResources().getColor(R.color.bgred)));
+
+        addSlide(s1);
         addSlide(AppIntro2Fragment.newInstance("Eres profesor?", "Solo deberas llenar los campos explicando quien eres y que enseñas, y la gente podra buscarte.", R.drawable.is2, getResources().getColor(R.color.bgred)));
         addSlide(AppIntro2Fragment.newInstance("Buscas profesor?", "En la barra superior, si clickeas en la pequeña lupa, podras buscar profesores.", R.drawable.is3, getResources().getColor(R.color.bgred)));
         addSlide(AppIntro2Fragment.newInstance("Buscas profesor?", "Clickea en el profesor que te interese y seras llevado a una pagina donde podras leer mas sobre el y dar o leer una review.", R.drawable.is4, getResources().getColor(R.color.bgred)));
