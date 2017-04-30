@@ -38,7 +38,7 @@ public class s1 extends Fragment {
         ImageView frame = (ImageView) view.findViewById(R.id.frame);
         Picasso.with(getActivity().getApplicationContext())
                 .load("https://raw.githubusercontent.com/nfcurti/Narau/master/app/src/main/res/drawable/is1.png")
-                .resize(1200, 600)
+                .resize(800, 450)
                 .centerInside()
                 .into(frame);
 
