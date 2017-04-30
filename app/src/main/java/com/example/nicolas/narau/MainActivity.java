@@ -53,9 +53,6 @@ import com.android.volley.toolbox.Volley;
 import com.example.nicolas.narau.Model.MyRecyclerViewAdapter;
 import com.example.nicolas.narau.Model.User;
 import com.facebook.login.LoginManager;
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
-import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -506,6 +503,10 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                     dLayout.closeDrawers();
                     query = "Idiomas";
                     search();
+                }
+                if (itemId == R.id.help) {
+                    Intent i = new Intent(MainActivity.this, IntroActivity.class);
+                    startActivity(i);
                 }
 
 

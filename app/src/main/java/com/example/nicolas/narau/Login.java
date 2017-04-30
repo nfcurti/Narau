@@ -140,7 +140,7 @@ public class Login extends AppCompatActivity {
                             editor.commit();
 
 
-                            Intent i = new Intent(Login.this, MainActivity.class);
+                            Intent i = new Intent(Login.this, IntroActivity.class);
                            // i.putExtras(bundle);
                             startActivity(i);
 
