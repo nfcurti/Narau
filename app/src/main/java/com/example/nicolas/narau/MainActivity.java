@@ -456,8 +456,6 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
             super.onBackPressed();
             moveTaskToBack(true);
         }
-
-
     }
 
     private void setNavigationDrawer() {

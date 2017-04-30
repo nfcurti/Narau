@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fb="http://schemas.android.com/apk/res-auto"
     android:id="@+id/loginmain"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.nicolas.narau.Login"
-    android:background="@color/bgred" >
+    android:background="@color/bgred">
 
     <com.example.nicolas.narau.Typewriter
         android:id="@+id/narau"
@@ -57,7 +58,9 @@
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        fb:com_facebook_login_text="Entrar con Facebook"
+        fb:com_facebook_logout_text="Salir"
+        android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

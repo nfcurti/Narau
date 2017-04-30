@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:gravity="center_vertical"
 android:background="@color/bgred"
-    tools:context="com.example.nicolas.narau.s1">
+    tools:context=".Slides.s1">
 
     <com.example.nicolas.narau.TextViewRobotoBold
         android:id="@+id/tv1"
@@ -16,7 +16,8 @@ android:background="@color/bgred"
         android:layout_marginBottom="25dp"
         android:textSize="18dp"
         android:layout_marginTop="40dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/white"/>
 
     <ImageView
         android:id="@+id/frame"

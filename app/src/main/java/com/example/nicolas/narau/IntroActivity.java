@@ -1,34 +1,35 @@
 package com.example.nicolas.narau;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.github.paolorotolo.appintro.AppIntro;
+import com.example.nicolas.narau.Slides.s1;
+import com.example.nicolas.narau.Slides.s2;
+import com.example.nicolas.narau.Slides.s3;
+import com.example.nicolas.narau.Slides.s4;
+import com.example.nicolas.narau.Slides.s5;
 import com.github.paolorotolo.appintro.AppIntro2;
-import com.github.paolorotolo.appintro.AppIntro2Fragment;
-import com.github.paolorotolo.appintro.AppIntroFragment;
 
 public class IntroActivity extends AppIntro2 {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         s1 s1= new s1();
-
-
+        s2 s2= new s2();
+        s3 s3= new s3();
+        s4 s4= new s4();
+        s5 s5= new s5();
 
         addSlide(s1);
-        addSlide(AppIntro2Fragment.newInstance("Eres profesor?", "Solo deberas llenar los campos explicando quien eres y que enseñas, y la gente podra buscarte.", R.drawable.is2, getResources().getColor(R.color.bgred)));
-        addSlide(AppIntro2Fragment.newInstance("Buscas profesor?", "En la barra superior, si clickeas en la pequeña lupa, podras buscar profesores.", R.drawable.is3, getResources().getColor(R.color.bgred)));
-        addSlide(AppIntro2Fragment.newInstance("Buscas profesor?", "Clickea en el profesor que te interese y seras llevado a una pagina donde podras leer mas sobre el y dar o leer una review.", R.drawable.is4, getResources().getColor(R.color.bgred)));
-        addSlide(AppIntro2Fragment.newInstance("Menu", "Desliza hacia la derecha para desplegar el menu para filtrar profesores por categorias, salir de la aplicacion o volver a ver este tutorial.", R.drawable.is5, getResources().getColor(R.color.bgred)));
+        addSlide(s2);
+        addSlide(s3);
+        addSlide(s4);
+        addSlide(s5);
         showSkipButton(true);
         setProgressButtonEnabled(true);
-        setFlowAnimation()
-        ;
+        setFadeAnimation();
 
     }
 
