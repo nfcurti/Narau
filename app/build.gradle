@@ -38,4 +38,7 @@ dependencies {
     compile 'com.mikepenz:materialdrawer:5.9.0'
     compile 'com.github.paolorotolo:appintro:4.1.0'
     compile 'com.koushikdutta.ion:ion:2.+'
+    compile 'com.yarolegovich:lovely-dialog:1.0.7'
+    compile 'com.wang.avi:library:2.1.3'
+
 }

@@ -21,7 +21,7 @@ public class s2 extends Fragment {
         TextViewRobotoBold tv1 = (TextViewRobotoBold) view.findViewById(R.id.tv1) ;
         tv1.setText("Eres profesor?");
         TextViewRoboto tv2 = (TextViewRoboto) view.findViewById(R.id.tv2) ;
-        tv2.setText("Solo debes llenar los campos explicando quien eres y que enseñas, y la gente podra buscarte.");
+        tv2.setText("Llena los campos explicando quien eres y que enseñas, y la gente podra buscarte.");
         ImageView frame = (ImageView) view.findViewById(R.id.frame);
         Picasso.with(getActivity().getApplicationContext())
                 .load("https://raw.githubusercontent.com/nfcurti/Narau/master/app/src/main/res/drawable/is2.gif")

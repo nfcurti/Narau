@@ -54,6 +54,7 @@ import com.example.nicolas.narau.Model.MyRecyclerViewAdapter;
 import com.example.nicolas.narau.Model.User;
 import com.facebook.login.LoginManager;
 import com.squareup.picasso.Picasso;
+import com.yarolegovich.lovelydialog.LovelyTextInputDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,8 +75,8 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
     public ArrayList<User> arrayUsers;
     public String query;
     public SearchView searchView;
+    public String msisdn;
     private static boolean RUN_ONCE = true;
-
 
 
     @Override
@@ -83,28 +84,32 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        loginId = sharedPref.getInt("loginId", 0);
+        loginImg = sharedPref.getString("img", "null");
+        loginName = sharedPref.getString("name", "null");
+        msisdn = sharedPref.getString("msisdn", "null");
+
+        if(msisdn.equals("null")){
+            asknumber();
+        }else
+        {System.out.println("Logged in");}
+
         View View = getLayoutInflater().inflate(R.layout.header, null);
         final ImageView imgfinal = (ImageView) View.findViewById(R.id.profileimage);
         final TextViewRoboto tvnamefinal = (TextViewRoboto) View.findViewById(R.id.tvname);
 
 
+
+
         arrayUsers = new ArrayList<>();
         setcards();
-
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        loginId = sharedPref.getInt("loginId", 0);
-        loginImg = sharedPref.getString("img", "Nope");
-        loginName = sharedPref.getString("name", "Nope");
-
-
-
-
-
-
         setNavigationDrawer();
 
         SharedPreferences.Editor editor = getSharedPreferences("id", MODE_PRIVATE).edit();
         editor.putInt("id", loginId);
+        editor.putString("msisdn", msisdn);
         editor.commit();
 
         fab();
@@ -171,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_spinner_item, rubros);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                //ArrayAdapter <CharSequence> adapter = ArrayAdapter.createFromResource(MainActivity.this ,R.array.prof_array, android.R.layout.simple_list_item_1);
                 spinner.setAdapter(adapter);
 
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -197,10 +201,21 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                         .setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialogBox, int id) {
 
-                                Toast.makeText(getApplicationContext(), "Ahora apareces como profesor", Toast.LENGTH_LONG).show();
+                                if(InputDesc.getText().toString().trim().length() == 0){
+                                    Toast.makeText(getApplicationContext(), "El campo descripcion esta vacio", Toast.LENGTH_LONG).show();
+                                    fab.setVisibility(View.VISIBLE );
+                                    anotherfab.setVisibility(View.INVISIBLE);
+                                }
+                                else if(InputTopic.getText().toString().trim().length() == 0){
+                                    Toast.makeText(getApplicationContext(), "El campo topico esta vacio", Toast.LENGTH_LONG).show();
+                                    fab.setVisibility(View.VISIBLE );
+                                    anotherfab.setVisibility(View.INVISIBLE);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "Ahora apareces como profesor", Toast.LENGTH_LONG).show();
+                                    doBeProf();
+                                }
 
-
-                                doBeProf();
                             }
                         })
                         .setNegativeButton("Cancelar",
@@ -298,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     private void doBeProf(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.5:3000/user/"+loginId;
+        String url = "http://192.168.1.10:3000/user/"+loginId;
         System.out.print(url);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -342,7 +357,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     private void doNotAnymore(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.5:3000/prof/"+loginId;
+        String url = "http://192.168.1.10:3000/prof/"+loginId;
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url,
                 new Response.Listener<String>() {
                     @Override
@@ -361,7 +376,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     public void randomprof(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.5:3000/user/random";
+        final String url = "http://192.168.1.10:3000/user/random";
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -399,7 +414,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     public void search(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.5:3000/search/"+query;
+        final String url = "http://192.168.1.10:3000/search/"+query;
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -503,18 +518,83 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                     search();
                 }
                 if (itemId == R.id.help) {
-                    Intent i = new Intent(MainActivity.this, IntroActivity.class);
+                    Intent i = new Intent(MainActivity.this, Splash2.class);
                     startActivity(i);
                 }
 
-
+                if (itemId == R.id.namba) {
+                    asknumber();
+                }
 
                 return false;
             }
         });
     }
 
+    private void asknumber(){
+        new LovelyTextInputDialog(this, R.style.TintTheme)
+                .setTopColorRes(R.color.bgred)
+                .setTitle("Ingresa tu numero: ")
+                .setMessage("Asegurate de que sea correcto, sino no podras ser contactado")
+                .setIcon(R.drawable.ic_help_outline_white_24dp)
+                .setInputFilter("Asegurate de estar ingresando numeros!", new LovelyTextInputDialog.TextFilter() {
+                    @Override
+                    public boolean check(String text) {
+                        return text.matches("^[0-9]*$");
+                    }
+                })
+                .setConfirmButton(android.R.string.ok, new LovelyTextInputDialog.OnTextInputConfirmListener() {
+                    @Override
+                    public void onTextInputConfirmed(String text) {
+                        msisdn=text;
+                        doasknumber();
+                    }
+                })
+                .show();
+    }
 
+
+    private void doasknumber(){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://192.168.1.10:3000/user/"+loginId+"/msisdn";
+        System.out.print(url);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject responseJSON = new JSONObject(response);
+                            int status = Integer.parseInt(responseJSON.getString("error"));
+                            if (status == 0) {
+                                String var = new String(responseJSON.getString("users"));
+                            } else {
+                                System.out.println("There may be an errieriwehiewew");
+                            }
+                        } catch (final JSONException e) {
+                            Log.e("ERROR", "Error parsing JSON: " + e.getMessage());
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                }
+                            });
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MainActivity.this,error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("msisdn", msisdn);
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+    }
 
 
 }

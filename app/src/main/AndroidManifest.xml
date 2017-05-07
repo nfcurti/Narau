@@ -3,6 +3,7 @@
     package="com.example.nicolas.narau">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -55,10 +56,23 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".IntroActivity"
+        <activity
+            android:name=".IntroActivity"
+            android:label="Intro"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:label="Intro" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".Splash"
+            android:label="splash"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/SplashTheme"
+            />
+        <activity
+            android:name=".Splash2"
+            android:label="splash"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/SplashTheme"
+            />
     </application>
 
 </manifest>

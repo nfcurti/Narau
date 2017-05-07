@@ -27,8 +27,12 @@
             android:title="Ayuda"
             android:icon="@drawable/ic_live_help_black_24dp"
             />
+        <item android:id="@+id/namba"
+            android:title="Cambiar Numero"
+            android:icon="@drawable/ic_phone_in_talk_white_24dp"
+            />
         <item android:id="@+id/logout"
-            android:title="Logout"
+            android:title="Salir"
             android:icon="@drawable/ic_power_settings_new_white_24dp"
             />
     </group>

@@ -16,16 +16,6 @@
         android:gravity="center_vertical">
 
 
-        <com.example.nicolas.narau.TextViewRoboto
-            android:layout_width="match_parent"
-            android:layout_weight="1.3"
-            android:layout_height="0dp"
-            android:text="Lista De Reviews"
-            android:textSize="17dp"
-            android:background="@drawable/rounded_corner"
-            android:gravity="center"
-            android:textColor="@color/white"
-            />
         <LinearLayout
             android:id="@+id/dialoginfo"
             android:layout_width="match_parent"

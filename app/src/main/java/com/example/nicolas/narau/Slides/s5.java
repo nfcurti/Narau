@@ -23,7 +23,7 @@ public class s5 extends Fragment {
         TextViewRobotoBold tv1 = (TextViewRobotoBold) view.findViewById(R.id.tv1) ;
         tv1.setText("Menu");
         TextViewRoboto tv2 = (TextViewRoboto) view.findViewById(R.id.tv2) ;
-        tv2.setText("Desliza hacia la derecha para ver el menu donde podras desloguearte, filtrar por categorias o volver a ver este tutorial.");
+        tv2.setText("Desliza hacia la derecha para ver el menu.");
         ImageView frame = (ImageView) view.findViewById(R.id.frame);
         Picasso.with(getActivity().getApplicationContext())
                 .load("https://raw.githubusercontent.com/nfcurti/Narau/master/app/src/main/res/drawable/is5.png")

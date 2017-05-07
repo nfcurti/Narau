@@ -24,6 +24,7 @@ public class User implements Serializable {
     public String rubro;
     public String descr;
     public String info;
+    public String msisdn;
 
 
     public User(JSONObject json){
@@ -40,6 +41,9 @@ public class User implements Serializable {
             if(json.has("facebook_id")) {
                 this.facebook_id = json.getString("facebook_id");
             }
+            if(json.has("msisdn")) {
+                this.msisdn = json.getString("msisdn");
+            }
             if (json.has("idprof")){
                 this.idprof = json.getInt("idprof");
                 this.id = json.getInt("id");
@@ -53,10 +57,11 @@ public class User implements Serializable {
 
     }
 
-    public User(int id, String name, String img, String facebook_id,String info, String descr, String rubro, int idprof) {
+    public User(int id, String name, String img, String msisdn,String facebook_id,String info, String descr, String rubro, int idprof) {
         this.id = id;
         this.name = name;
         this.img = img;
+        this.msisdn = msisdn;
         this.facebook_id = facebook_id;
         this.info = info;
         this.descr = descr;
@@ -80,6 +85,14 @@ public class User implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getMsisdn() {
+        return msisdn;
+    }
+
+    public void setMsisdn(String msisdn) {
+        this.msisdn = msisdn;
     }
 
     public String getimg() {

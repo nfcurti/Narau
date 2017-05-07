@@ -44,6 +44,8 @@ import java.util.Map;
 public class Login extends AppCompatActivity {
 
     public CallbackManager callbackManager;
+    final String PREFS_NAME = "isfirst";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,17 @@ public class Login extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
+                if (settings.getBoolean("my_first_time", true)) {
+                    Intent i = new Intent(Login.this, IntroActivity.class);
+                    startActivity(i);
+                    settings.edit().putBoolean("my_first_time", false).apply();
+                }else
+                {
+                    Intent i = new Intent(Login.this, Splash.class);
+                    startActivity(i);
+                }
                 dologin();
             }
 
@@ -74,7 +86,7 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException exception) {
-            System.out.print("There was an error");
+                System.out.print("There was an error");
             }
         });
     }
@@ -110,9 +122,9 @@ public class Login extends AppCompatActivity {
     private void checklogin(AccessToken currentAccessToken) {
 
         if (currentAccessToken != null) {
-                    Intent i = new Intent(Login.this, MainActivity.class);
-                    startActivity(i);
-                    dologin();
+            Intent i = new Intent(Login.this, MainActivity.class);
+            startActivity(i);
+            dologin();
 
         } else {
 
@@ -121,60 +133,59 @@ public class Login extends AppCompatActivity {
 
     private void dologin(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.5:3000/login";
+        String url = "http://192.168.1.10:3000/login";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    try {
-                        JSONObject responseJSON = new JSONObject(response);
-                        System.out.print(responseJSON);
-                        int status = Integer.parseInt(responseJSON.getString("error"));
-                        if (status == 0) {
-                            final User thisUser = new User(responseJSON.getJSONObject("userfb"));
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject responseJSON = new JSONObject(response);
+                            System.out.print(responseJSON);
+                            int status = Integer.parseInt(responseJSON.getString("error"));
+                            if (status == 0) {
+                                final User thisUser = new User(responseJSON.getJSONObject("userfb"));
 
-                            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Login.this);
-                            SharedPreferences.Editor editor = sharedPref.edit();
+                                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Login.this);
+                                SharedPreferences.Editor editor = sharedPref.edit();
 
-                            //Bundle bundle = new Bundle();
-                            editor.putInt("loginId", thisUser.getId());
-                            editor.putString("img", thisUser.getimg());
-                            editor.putString("name", thisUser.getName());
-                            editor.commit();
+                                //Bundle bundle = new Bundle();
+                                editor.putInt("loginId", thisUser.getId());
+                                editor.putString("img", thisUser.getimg());
+                                editor.putString("name", thisUser.getName());
+                                editor.putString("msisdn", thisUser.getMsisdn());
+                                editor.commit();
 
 
-                            Intent i = new Intent(Login.this, IntroActivity.class);
-                           // i.putExtras(bundle);
-                            startActivity(i);
 
-                        } else {
-                            System.out.println("There may be an errieriwehiewew");
-                        }
-                    } catch (final JSONException e) {
-                        Log.e("ERROR", "Error parsing JSON: " + e.getMessage());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
+
+                            } else {
+                                System.out.println("There may be an errieriwehiewew");
                             }
-                        });
+                        } catch (final JSONException e) {
+                            Log.e("ERROR", "Error parsing JSON: " + e.getMessage());
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                }
+                            });
+                        }
+
+
                     }
-
-
-                }
-            },
-            new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(Login.this,error.toString(), Toast.LENGTH_LONG).show();
-                }
-            }){
-        @Override
-        protected Map<String,String> getParams(){
-            Map<String,String> params = new HashMap<String, String>();
-            params.put("token",AccessToken.getCurrentAccessToken().getToken());
-            return params;
-        }
-    };
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Login.this,error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("token",AccessToken.getCurrentAccessToken().getToken());
+                return params;
+            }
+        };
         int socketTimeout = 60000; // 30 seconds. You can change it
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -186,8 +197,8 @@ public class Login extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-            super.onBackPressed();
-            moveTaskToBack(true);
+        super.onBackPressed();
+        moveTaskToBack(true);
 
     }
 
