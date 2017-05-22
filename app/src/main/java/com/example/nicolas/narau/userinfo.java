@@ -2,7 +2,6 @@ package com.example.nicolas.narau;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -10,24 +9,19 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DialogTitle;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,14 +35,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eqot.fontawesome.FontAwesome;
-import com.example.nicolas.narau.Model.MyRecyclerViewAdapter;
-import com.example.nicolas.narau.Model.User;
 import com.example.nicolas.narau.Model.review;
 import com.squareup.picasso.Picasso;
-import com.yarolegovich.lovelydialog.LovelyChoiceDialog;
-import com.yarolegovich.lovelydialog.LovelyCustomDialog;
-import com.yarolegovich.lovelydialog.LovelyInfoDialog;
-import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 import com.yarolegovich.lovelydialog.LovelyTextInputDialog;
 
 import org.json.JSONArray;
@@ -59,7 +47,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import mehdi.sakout.fancybuttons.FancyButton;
 
 public class userinfo extends AppCompatActivity {
 
@@ -78,25 +65,22 @@ public class userinfo extends AppCompatActivity {
     ImageView imgfinal;
     public String Text;
     public String number;
+    public int largo;
+    public View dialogView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         arrayReview = new ArrayList<>();
-
         setContentView(R.layout.activity_userinfo);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.faba);
-
-
         tvtypefinal = (TextViewRoboto) findViewById(R.id.info);
         tvrubrofinal = (TextViewRoboto) findViewById(R.id.tvrubro);
         infofinal= (TextViewRoboto) findViewById(R.id.tvtype);
         imgfinal = (ImageView) findViewById(R.id.profileimage);
         tvnamefinal = (TextViewRobotoBold) findViewById(R.id.tvname);
         doBringInfo();
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,14 +90,12 @@ public class userinfo extends AppCompatActivity {
                 startActivity(Intent.createChooser(i, ""));
             }
         });
-
         FontAwesome.applyToAllViews(this, findViewById(R.id.main));
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
         TextView title = (TextView) findViewById(R.id.title);
         Typeface ltm = Typeface.createFromAsset(getAssets(), "fonts/LieToMe.otf");
         title.setTypeface(ltm);
-
         LinearLayout reviewdar = (LinearLayout) findViewById(R.id.dar);
 
   reviewdar.setOnClickListener(new View.OnClickListener() {
@@ -145,18 +127,15 @@ public class userinfo extends AppCompatActivity {
         return true;
     }
 
-
-
-
     private void showChangeLangDialog() {
         new LovelyTextInputDialog(this, R.style.TintTheme)
-                .setTopColorRes(R.color.colorAccent)
+                .setTopColorRes(R.color.vimeo)
                 .setTitle("Ingresa tu review: ")
-                .setMessage("\n Que l  e parecio el profesor?" +
+                .setMessage("\n Que le parecio el profesor?" +
                         " \n Fue puntual?" +
                         " \n Le gusto su manera de trabajar?" +
                         " \n Lo recomendarias?")
-                .setIcon(R.drawable.ic_pets_white_24dp)
+                .setIcon(R.drawable.ic_thumbs_up_down_white_24dp)
                 .setInputFilter("Asegurate de estar ingresando algo!", new LovelyTextInputDialog.TextFilter() {
                     @Override
                     public boolean check(String text) {
@@ -168,7 +147,7 @@ public class userinfo extends AppCompatActivity {
                     @Override
                     public void onTextInputConfirmed(String text) {
                         doDarReview();
-                        Toast.makeText(userinfo.this, "Review Enviada!", Toast.LENGTH_LONG).show();
+
                     }
                 })
                 .show();
@@ -178,20 +157,20 @@ public class userinfo extends AppCompatActivity {
     public void showVerLangDialog() {
         doBringReview();
 
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.reviewleer, null);
+        dialogView = inflater.inflate(R.layout.reviewleer, null);
+        dialogBuilder.setView(dialogView);
+
         adaptervp = new MyPagerAdapter(this, arrayReview);
         ViewPager viewPager = (ViewPager) dialogView.findViewById(R.id.viewpager);
         viewPager.setAdapter(adaptervp);
+        AlertDialog v = dialogBuilder.create();
+        v.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        new LovelyCustomDialog(this)
-                .setView(dialogView)
-                .setTopColorRes(R.color.vimeo)
-                .setTitle("Reviews")
-                .setMessage("Desliza para los costados para ver mas")
-                .setIcon(R.drawable.ic_settings_ethernet_white_24dp)
-                .show();
 
+
+        v.show();
     }
 
     public void darreview(View view){
@@ -200,12 +179,12 @@ public class userinfo extends AppCompatActivity {
 
     public void verreview(View view){
         showVerLangDialog();
+        hasreview();
     }
 
     private void doBringInfo(){
         RequestQueue queue = Volley.newRequestQueue(this);
-
-        String url = "http://192.168.1.10:3000/prof/" + getIntent().getExtras().getInt("profid");
+        String url = "http://192.168.1.13:3000/prof/" + getIntent().getExtras().getInt("idprof");
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -221,6 +200,8 @@ public class userinfo extends AppCompatActivity {
                                 number=(responseJSON.getJSONArray("users").getJSONObject(0).getString("msisdn"));
                                 String urli = new String(responseJSON.getJSONArray("users").getJSONObject(0).getString("img"));
                                 Picasso.with(getApplicationContext()).load(urli).into(imgfinal);
+
+
 
                         } catch (final JSONException e) {
                             Log.e("ERROR", "Error parsing JSON: " + e.getMessage());
@@ -246,8 +227,8 @@ public class userinfo extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("id", MODE_PRIVATE);
         int id = prefs.getInt("id", 0);
-
-        String url = "http://192.168.1.10:3000/review/"+id+"/"+getIntent().getExtras().getInt("profid");
+        if(id != getIntent().getExtras().getInt("idprof")){
+        String url = "http://192.168.1.13:3000/review/"+id+"/"+getIntent().getExtras().getInt("idprof");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -256,8 +237,9 @@ public class userinfo extends AppCompatActivity {
                             JSONObject responseJSON = new JSONObject(response);
                             int status = Integer.parseInt(responseJSON.getString("error"));
                             if (status == 0) {
+                                Toast.makeText(userinfo.this, "Review Enviada!", Toast.LENGTH_LONG).show();
                             } else {
-                                System.out.println("There may be an errieriwehiewew");
+                                Toast.makeText(userinfo.this, "No se pudo enviar!", Toast.LENGTH_LONG).show();
                             }
                         } catch (final JSONException e) {
                             Log.e("ERROR", "Error parsing JSON: " + e.getMessage());
@@ -282,12 +264,15 @@ public class userinfo extends AppCompatActivity {
                 return params;
             }
         };
-        queue.add(stringRequest);
+        queue.add(stringRequest);}
+        else{
+            Toast.makeText(userinfo.this, "No podes hacerte una review a vos mismo!", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void doBringReview(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.10:3000/review/"+getIntent().getExtras().getInt("profid");
+        final String url = "http://192.168.1.13:3000/review/"+getIntent().getExtras().getInt("idprof");
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -298,11 +283,14 @@ public class userinfo extends AppCompatActivity {
                         try {
                             if (response.has("review")) {
                                 JSONArray reviewArray = response.getJSONArray("review");
-                                arrayReview.clear();
+
                                 for (int i=0;i<reviewArray.length();i++) {
                                     arrayReview.add(new review(reviewArray.getJSONObject(i)));
                                 }
                                 System.out.print(arrayReview);
+
+                                largo = arrayReview.size();
+
                                 adaptervp.notifyDataSetChanged();
                             }
                         }catch(JSONException e){
@@ -323,7 +311,9 @@ public class userinfo extends AppCompatActivity {
 
     }
 
+    public void hasreview(){
 
+    }
 }
 
 

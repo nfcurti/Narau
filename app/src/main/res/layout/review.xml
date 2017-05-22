@@ -7,7 +7,16 @@
     android:id="@+id/reviewpage"
     android:orientation="vertical"
     android:gravity="center_horizontal|center_vertical">
-
+    <com.example.nicolas.narau.TextViewRoboto
+        android:id="@+id/infoscroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:visibility="visible"
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/black"
+        android:text="Scrollea hacia los costados para ver mas!"/>
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/senderpic"
         android:layout_width="60dp"

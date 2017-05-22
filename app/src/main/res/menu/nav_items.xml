@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group
-        android:id="@+id/hr"
-        >
-    </group>
-    <group
-        android:id="@+id/categorias"
-        android:checkableBehavior="single">
-        <item android:id="@+id/academico"
-            android:title="Estudiantes"
-            android:icon="@drawable/feather" />
-        <item android:id="@+id/sports"
-            android:title="Deportes"
-            android:icon="@drawable/footballaustralian" />
-        <item android:id="@+id/Languages"
-            android:title="Idiomas"
-            android:icon="@drawable/map" />
-        <item android:id="@+id/Music"
-            android:title="Musica"
-            android:icon="@drawable/music" />
-    </group>
+
+    <group xmlns:android="http://schemas.android.com/apk/res/android"
+             >
+            <item android:id="@+id/academico"
+                android:title="Academicos"
+                android:icon="@drawable/feather" />
+            <item android:id="@+id/sports"
+                android:title="Deportes"
+                android:icon="@drawable/footballaustralian" />
+            <item android:id="@+id/Languages"
+                android:title="Idiomas"
+                android:icon="@drawable/map" />
+            <item android:id="@+id/Music"
+                android:title="Musica"
+                android:icon="@drawable/music" />
+        </group>
+
     <group
         android:id="@+id/adios"
         >

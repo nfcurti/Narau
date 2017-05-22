@@ -59,7 +59,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             public void onClick(View view) {
                 Intent i = new Intent(context, userinfo.class);
                 i.putExtra("profid", mData.get(position).getIdprof());
-
+                i.putExtra("idprof", mData.get(position).getId());
                 view.getContext().startActivity(i);
             }
         });

@@ -30,10 +30,11 @@
         <com.example.nicolas.narau.TextViewRoboto
             android:id="@+id/name"
             android:layout_marginTop="1dip"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:clickable="false"
             android:duplicateParentState="true"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:textStyle="bold"
             android:textSize="18dp"
             android:text="Woody Allen"/>

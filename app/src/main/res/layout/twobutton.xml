@@ -29,7 +29,7 @@
                     android:onClick="verreview"
                     android:layout_gravity="center"
                     android:textSize="24dp"
-                    android:text="{fa-rocket}"/>
+                    android:text="{fa-smile-o}"/>
                 <com.example.nicolas.narau.TextViewRoboto
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                     android:clickable="true"
                     android:onClick="darreview"
                     android:textSize="24dp"
-                    android:text="{fa-bold}"/>
+                    android:text="{fa-bold}+"/>
                 <com.example.nicolas.narau.TextViewRoboto
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
                     android:clickable="true"
                     android:onClick="darreview"
                     android:textSize="18dp"
-                    android:text="Dar Review"/>
+                    android:text="Calificar"/>
             </LinearLayout>
         </LinearLayout>
 

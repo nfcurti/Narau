@@ -125,6 +125,7 @@ public class Login extends AppCompatActivity {
             Intent i = new Intent(Login.this, MainActivity.class);
             startActivity(i);
             dologin();
+            finish();
 
         } else {
 
@@ -133,7 +134,7 @@ public class Login extends AppCompatActivity {
 
     private void dologin(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.10:3000/login";
+        String url = "http://192.168.1.13:3000/login";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -154,10 +155,6 @@ public class Login extends AppCompatActivity {
                                 editor.putString("name", thisUser.getName());
                                 editor.putString("msisdn", thisUser.getMsisdn());
                                 editor.commit();
-
-
-
-
                             } else {
                                 System.out.println("There may be an errieriwehiewew");
                             }
@@ -176,7 +173,8 @@ public class Login extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(Login.this,error.toString(), Toast.LENGTH_LONG).show();
+                        //error.toString() to standrad error msg
+                        Toast.makeText(Login.this,"No se pudo conectar con el servidor", Toast.LENGTH_LONG).show();
                     }
                 }){
             @Override

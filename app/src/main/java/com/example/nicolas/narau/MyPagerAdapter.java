@@ -28,6 +28,8 @@ public class MyPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup collection, int position) {
+
+
         LayoutInflater inflater = LayoutInflater.from(mContext);
         ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.review, collection, false);
         TextView review = (TextView) layout.findViewById(R.id.reviewtext);

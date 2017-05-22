@@ -83,60 +83,44 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-
         loginId = sharedPref.getInt("loginId", 0);
         loginImg = sharedPref.getString("img", "null");
         loginName = sharedPref.getString("name", "null");
         msisdn = sharedPref.getString("msisdn", "null");
-
-        if(msisdn.equals("null")){
+        if(msisdn.equals("desconocido")){
             asknumber();
         }else
         {System.out.println("Logged in");}
-
+        isprof();
         View View = getLayoutInflater().inflate(R.layout.header, null);
         final ImageView imgfinal = (ImageView) View.findViewById(R.id.profileimage);
         final TextViewRoboto tvnamefinal = (TextViewRoboto) View.findViewById(R.id.tvname);
-
-
-
-
         arrayUsers = new ArrayList<>();
         setcards();
         setNavigationDrawer();
-
         SharedPreferences.Editor editor = getSharedPreferences("id", MODE_PRIVATE).edit();
         editor.putInt("id", loginId);
         editor.putString("msisdn", msisdn);
         editor.commit();
-
         fab();
         SupportActionBar();
         randomprof();
-
         TextView title = (TextView) findViewById(R.id.title);
         Typeface ltm = Typeface.createFromAsset(getAssets(), "fonts/LieToMe.otf");
         Typeface roboto = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
         Typeface robotobold = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Bold.ttf");
         title.setTypeface(ltm);
-
         final SwipeRefreshLayout refresh = (SwipeRefreshLayout) findViewById(R.id.refresh);
-
         refresh.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
                         randomprof();
                         refresh.setRefreshing(false);
-
                     }
                 }
         );
-
-
-
     }
 
     public void setcards(){
@@ -268,8 +252,6 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
         getSupportActionBar().setCustomView(R.layout.actionbar);
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -313,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     private void doBeProf(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.10:3000/user/"+loginId;
+        String url = "http://192.168.1.13:3000/user/"+loginId;
         System.out.print(url);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -357,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     private void doNotAnymore(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.10:3000/prof/"+loginId;
+        String url = "http://192.168.1.13:3000/prof/"+loginId;
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url,
                 new Response.Listener<String>() {
                     @Override
@@ -376,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     public void randomprof(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.10:3000/user/random";
+        final String url = "http://192.168.1.13:3000/user/random";
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -414,7 +396,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     public void search(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.10:3000/search/"+query;
+        final String url = "http://192.168.1.13:3000/search/"+query;
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -481,9 +463,11 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
         ImageView img = (ImageView) view.findViewById(R.id.profileimage);
         TextViewRoboto tvr = (TextViewRoboto) view.findViewById(R.id.tvname);
-        tvr.setText(loginName);
+        tvr.setText("Hola, "+loginName.substring(0, loginName.indexOf(" "))+"!");
 
         Picasso.with(getApplicationContext()).load(loginImg).into(img);
+
+
 
 
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -532,15 +516,16 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
     }
 
     private void asknumber(){
+        Toast.makeText(MainActivity.this, msisdn, Toast.LENGTH_LONG).show();
         new LovelyTextInputDialog(this, R.style.TintTheme)
                 .setTopColorRes(R.color.bgred)
                 .setTitle("Ingresa tu numero: ")
-                .setMessage("Asegurate de que sea correcto, sino no podras ser contactado")
+                .setMessage("Tu numero es "+msisdn+", asegurate que sea correcto o no podras ser contactado!").setHint("Ej: 66601468")
                 .setIcon(R.drawable.ic_help_outline_white_24dp)
                 .setInputFilter("Asegurate de estar ingresando numeros!", new LovelyTextInputDialog.TextFilter() {
                     @Override
                     public boolean check(String text) {
-                        return text.matches("^[0-9]*$");
+                        return text.matches("^\\d+$");
                     }
                 })
                 .setConfirmButton(android.R.string.ok, new LovelyTextInputDialog.OnTextInputConfirmListener() {
@@ -553,11 +538,9 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                 .show();
     }
 
-
     private void doasknumber(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.10:3000/user/"+loginId+"/msisdn";
-        System.out.print(url);
+        String url = "http://192.168.1.13:3000/user/"+loginId+"/msisdn";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -596,5 +579,40 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
         queue.add(stringRequest);
     }
 
+    private void isprof(){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://192.168.1.13:3000/prof/" + loginId;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject responseJSON = new JSONObject(response);
+                            final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+                            final FloatingActionButton anotherfab = (FloatingActionButton) findViewById(R.id.anotherfab);
+                            if(responseJSON.getJSONArray("users").length()>0)
+                            {
+                                fab.setVisibility(View.INVISIBLE );
+                                anotherfab.setVisibility(View.VISIBLE);
+                            }
+                            else{}
 
+                        } catch (final JSONException e) {
+                            Log.e("ERROR", "Error parsing JSON: " + e.getMessage());
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                }
+                            });
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        queue.add(stringRequest);
+    }
 }
