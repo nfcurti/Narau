@@ -344,6 +344,9 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        arrayUsers.clear();
+                        Toast.makeText(MainActivity.this,"Ya no apareces como profesor", Toast.LENGTH_LONG).show();
+                        randomprof();
                         adapter.notifyDataSetChanged();
                     }
                 },
