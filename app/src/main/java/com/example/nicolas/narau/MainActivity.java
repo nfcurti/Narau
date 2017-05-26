@@ -306,6 +306,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                             int status = Integer.parseInt(responseJSON.getString("error"));
                             if (status == 0) {
                                 String var = new String(responseJSON.getString("users"));
+                                randomprof();
                             } else {
                                 System.out.println("There may be an errieriwehiewew");
                             }
@@ -519,7 +520,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
     }
 
     private void asknumber(){
-        Toast.makeText(MainActivity.this, msisdn, Toast.LENGTH_LONG).show();
+
         new LovelyTextInputDialog(this, R.style.TintTheme)
                 .setTopColorRes(R.color.bgred)
                 .setTitle("Ingresa tu numero: ")
