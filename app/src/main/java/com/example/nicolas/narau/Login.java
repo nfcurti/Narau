@@ -69,12 +69,17 @@ public class Login extends AppCompatActivity {
 
                 if (settings.getBoolean("my_first_time", true)) {
                     Intent i = new Intent(Login.this, IntroActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
                     settings.edit().putBoolean("my_first_time", false).apply();
+
                 }else
                 {
+                    settings.edit().putBoolean("my_first_time", false).apply();
                     Intent i = new Intent(Login.this, Splash.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
+                    finish();
                 }
                 dologin();
             }
@@ -134,7 +139,7 @@ public class Login extends AppCompatActivity {
 
     private void dologin(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.13:3000/login";
+        String url = "http://45.55.135.115/login";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override

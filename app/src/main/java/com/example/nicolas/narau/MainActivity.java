@@ -77,12 +77,15 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
     public SearchView searchView;
     public String msisdn;
     private static boolean RUN_ONCE = true;
-
+    final String PREFS_NAME = "isfirst";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         loginId = sharedPref.getInt("loginId", 0);
         loginImg = sharedPref.getString("img", "null");
@@ -92,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
             asknumber();
         }else
         {System.out.println("Logged in");}
+
+
         isprof();
         View View = getLayoutInflater().inflate(R.layout.header, null);
         final ImageView imgfinal = (ImageView) View.findViewById(R.id.profileimage);
@@ -295,7 +300,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     private void doBeProf(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.13:3000/user/"+loginId;
+        String url = "http://45.55.135.115/user/"+loginId;
         System.out.print(url);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -340,7 +345,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     private void doNotAnymore(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.13:3000/prof/"+loginId;
+        String url = "http://45.55.135.115/prof/"+loginId;
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url,
                 new Response.Listener<String>() {
                     @Override
@@ -362,7 +367,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     public void randomprof(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.13:3000/user/random";
+        final String url = "http://45.55.135.115/user/random";
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -400,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     public void search(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.13:3000/search/"+query;
+        final String url = "http://45.55.135.115/search/"+query;
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -544,7 +549,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     private void doasknumber(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.13:3000/user/"+loginId+"/msisdn";
+        String url = "http://45.55.135.115/user/"+loginId+"/msisdn";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -585,7 +590,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     private void isprof(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.13:3000/prof/" + loginId;
+        String url = "http://45.55.135.115/prof/" + loginId;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override

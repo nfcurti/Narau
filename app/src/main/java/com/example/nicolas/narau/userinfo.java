@@ -80,6 +80,9 @@ public class userinfo extends AppCompatActivity {
         infofinal= (TextViewRoboto) findViewById(R.id.tvtype);
         imgfinal = (ImageView) findViewById(R.id.profileimage);
         tvnamefinal = (TextViewRobotoBold) findViewById(R.id.tvname);
+
+
+
         doBringInfo();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +180,7 @@ public class userinfo extends AppCompatActivity {
 
     private void doBringInfo(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.13:3000/prof/" + getIntent().getExtras().getInt("idprof");
+        String url = "http://45.55.135.115/prof/" + getIntent().getExtras().getInt("idprof");
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -221,7 +224,7 @@ public class userinfo extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("id", MODE_PRIVATE);
         int id = prefs.getInt("id", 0);
         if(id != getIntent().getExtras().getInt("idprof")){
-        String url = "http://192.168.1.13:3000/review/"+id+"/"+getIntent().getExtras().getInt("idprof");
+        String url = "http://45.55.135.115/review/"+id+"/"+getIntent().getExtras().getInt("idprof");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -265,7 +268,7 @@ public class userinfo extends AppCompatActivity {
 
     public void doBringReview(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.13:3000/review/"+getIntent().getExtras().getInt("idprof");
+        final String url = "http://45.55.135.115/review/"+getIntent().getExtras().getInt("idprof");
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
                 {
