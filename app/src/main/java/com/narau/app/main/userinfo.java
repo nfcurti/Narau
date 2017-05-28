@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
@@ -69,14 +70,24 @@ public class userinfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         arrayReview = new ArrayList<>();
         setContentView(R.layout.activity_userinfo);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.faba);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.faba);
         tvtypefinal = (TextViewRoboto) findViewById(R.id.info);
         tvrubrofinal = (TextViewRoboto) findViewById(R.id.tvrubro);
         infofinal= (TextViewRoboto) findViewById(R.id.tvtype);
         imgfinal = (ImageView) findViewById(R.id.profileimage);
         tvnamefinal = (TextViewRobotoBold) findViewById(R.id.tvname);
 
+        final LinearLayout main1 = (LinearLayout) findViewById(R.id.main1);
+        new CountDownTimer(500,1000){
+            @Override
+            public void onTick(long millisUntilFinished){}
 
+            @Override
+            public void onFinish(){
+                main1.setVisibility(View.VISIBLE);
+                fab.setVisibility(View.VISIBLE);
+            }
+        }.start();
 
         doBringInfo();
         fab.setOnClickListener(new View.OnClickListener() {
