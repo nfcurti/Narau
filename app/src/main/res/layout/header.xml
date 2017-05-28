@@ -17,7 +17,7 @@
         android:clickable="false"
         android:layout_marginRight="25dp"
         android:layout_marginLeft="25dp" />
-    <com.example.nicolas.narau.TextViewRoboto
+    <com.narau.app.main.TextViewRoboto
         android:id="@+id/tvname"
         android:layout_width="wrap_content"
         android:clickable="false"

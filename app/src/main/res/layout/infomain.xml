@@ -27,7 +27,7 @@
             android:layout_marginRight="25dp"
             android:layout_marginLeft="25dp"
             />
-        <com.example.nicolas.narau.TextViewRoboto
+        <com.narau.app.main.TextViewRoboto
             android:id="@+id/name"
             android:layout_marginTop="1dip"
             android:layout_width="match_parent"
@@ -38,7 +38,7 @@
             android:textStyle="bold"
             android:textSize="18dp"
             android:text="Woody Allen"/>
-        <com.example.nicolas.narau.TextViewRoboto
+        <com.narau.app.main.TextViewRoboto
             android:id="@+id/loc"
             android:layout_width="wrap_content"
             android:duplicateParentState="true"

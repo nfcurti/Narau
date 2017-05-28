@@ -25,7 +25,7 @@
         android:layout_gravity="center_vertical"
         android:orientation="vertical">
 
-        <com.example.nicolas.narau.TextViewRobotoBold
+        <com.narau.app.main.TextViewRobotoBold
             android:id="@+id/tvname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                      android:textSize="15dp"
                      android:layout_height="wrap_content"
                     android:text="@string/type"/>
-                <com.example.nicolas.narau.TextViewRoboto
+                <com.narau.app.main.TextViewRoboto
                     android:id="@+id/tvrubro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                 android:textColor="@color/white"
                 android:padding="5dp"
                 android:text="@string/loc"/>
-                <com.example.nicolas.narau.TextViewRoboto
+                <com.narau.app.main.TextViewRoboto
                     android:id="@+id/tvtype"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

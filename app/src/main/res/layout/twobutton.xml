@@ -30,7 +30,7 @@
                     android:layout_gravity="center"
                     android:textSize="24dp"
                     android:text="{fa-smile-o}"/>
-                <com.example.nicolas.narau.TextViewRoboto
+                <com.narau.app.main.TextViewRoboto
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -68,7 +68,7 @@
                     android:onClick="darreview"
                     android:textSize="24dp"
                     android:text="{fa-bold}+"/>
-                <com.example.nicolas.narau.TextViewRoboto
+                <com.narau.app.main.TextViewRoboto
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

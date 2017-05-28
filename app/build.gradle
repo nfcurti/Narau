@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.0"
 
     defaultConfig {
-        applicationId "com.example.nicolas.narau"
+        applicationId "com.narau.app.main"
         minSdkVersion 21
         targetSdkVersion 24
         versionCode 1

@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/white"
-    tools:context="com.example.nicolas.narau.Splash">
+    tools:context="com.narau.app.main.Splash">
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/avi"

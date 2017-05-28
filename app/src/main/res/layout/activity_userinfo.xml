@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:background="@color/bggray"
         android:gravity="center_horizontal"
-        tools:context="com.example.nicolas.narau.userinfo">
+        tools:context="com.narau.app.main.userinfo">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -37,7 +37,7 @@
                 android:layout_marginTop="10dp"
 
                 >
-                <com.example.nicolas.narau.TextViewRoboto
+                <com.narau.app.main.TextViewRoboto
                     android:id="@+id/info"
                     android:layout_marginLeft="16dp"
                     android:layout_marginBottom="16dp"

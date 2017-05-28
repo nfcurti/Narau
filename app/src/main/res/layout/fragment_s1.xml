@@ -7,7 +7,7 @@
     android:background="@color/black"
     tools:context=".Slides.s1">
 
-    <com.example.nicolas.narau.TextViewRobotoBold
+    <com.narau.app.main.TextViewRobotoBold
         android:id="@+id/tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center_horizontal"
         />
-    <com.example.nicolas.narau.TextViewRoboto
+    <com.narau.app.main.TextViewRoboto
         android:id="@+id/tv2"
         android:layout_width="275dp"
         android:layout_height="wrap_content"

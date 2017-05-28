@@ -7,7 +7,7 @@
     android:id="@+id/reviewpage"
     android:orientation="vertical"
     android:gravity="center_horizontal|center_vertical">
-    <com.example.nicolas.narau.TextViewRoboto
+    <com.narau.app.main.TextViewRoboto
         android:id="@+id/infoscroll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
         <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <com.example.nicolas.narau.TextViewRoboto
+            <com.narau.app.main.TextViewRoboto
                 android:id="@+id/reviewtext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

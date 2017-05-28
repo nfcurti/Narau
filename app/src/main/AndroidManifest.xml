@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.nicolas.narau">
+    package="com.narau.app.main">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -22,12 +21,12 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.narau.app.main.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/ActionBar" />
         <activity
-            android:name=".Login"
+            android:name="com.narau.app.main.Login"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -37,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".userinfo"
+            android:name="com.narau.app.main.userinfo"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/ActionBar" />
         <activity
@@ -57,18 +56,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".IntroActivity"
+            android:name="com.narau.app.main.IntroActivity"
             android:label="Intro"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".Splash"
+            android:name="com.narau.app.main.Splash"
             android:label="splash"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/SplashTheme"
             />
         <activity
-            android:name=".Splash2"
+            android:name="com.narau.app.main.Splash2"
             android:label="splash"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/SplashTheme"
