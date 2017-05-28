@@ -521,10 +521,10 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                 .setTitle("Ingresa tu numero: ")
                 .setMessage("Tu numero es "+msisdn+", asegurate que sea correcto o no podras ser contactado!").setHint("Ej: 66601468")
                 .setIcon(R.drawable.ic_help_outline_white_24dp)
-                .setInputFilter("Asegurate de estar ingresando numeros!", new LovelyTextInputDialog.TextFilter() {
+                .setInputFilter("Asegurate de estar ingresando un numero de 8 digitos!", new LovelyTextInputDialog.TextFilter() {
                     @Override
                     public boolean check(String text) {
-                        return text.matches("^\\d+$");
+                        return text.matches("^\\d{8}$");
                     }
                 })
                 .setConfirmButton(android.R.string.ok, new LovelyTextInputDialog.OnTextInputConfirmListener() {
