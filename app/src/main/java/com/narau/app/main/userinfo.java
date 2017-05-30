@@ -70,7 +70,7 @@ public class userinfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         arrayReview = new ArrayList<>();
         setContentView(R.layout.activity_userinfo);
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.faba);
+        final  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.faba);
         tvtypefinal = (TextViewRoboto) findViewById(R.id.info);
         tvrubrofinal = (TextViewRoboto) findViewById(R.id.tvrubro);
         infofinal= (TextViewRoboto) findViewById(R.id.tvtype);

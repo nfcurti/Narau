@@ -69,7 +69,7 @@ public class Login extends AppCompatActivity {
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
                     settings.edit().putBoolean("my_first_time", false).apply();
-
+                    finish();
                 }else
                 {
                     settings.edit().putBoolean("my_first_time", false).apply();
