@@ -518,7 +518,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
         new LovelyTextInputDialog(this, R.style.TintTheme)
                 .setTopColorRes(R.color.bgred)
-                .setTitle("Ingresa tu numero: ")
+                .setTitle("Ingresa tu numero:  ")
                 .setMessage("Tu numero es "+msisdn+", asegurate que sea correcto o no podras ser contactado!").setHint("Ej: 66601468")
                 .setIcon(R.drawable.ic_help_outline_white_24dp)
                 .setInputFilter("Asegurate de estar ingresando un numero de 8 digitos!", new LovelyTextInputDialog.TextFilter() {
