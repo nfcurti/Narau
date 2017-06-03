@@ -444,7 +444,6 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     @Override
     public void onBackPressed(){
-
         DrawerLayout layout = (DrawerLayout)findViewById(R.id.drawer_layout);
         if (layout.isDrawerOpen(GravityCompat.START)) {
             layout.closeDrawer(GravityCompat.START);
@@ -452,6 +451,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
             super.onBackPressed();
             moveTaskToBack(true);
         }
+
     }
 
     private void setNavigationDrawer() {

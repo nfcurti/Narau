@@ -169,9 +169,6 @@ public class userinfo extends AppCompatActivity {
         viewPager.setAdapter(adaptervp);
         AlertDialog v = dialogBuilder.create();
         v.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-
-
         v.show();
     }
 
@@ -202,10 +199,7 @@ public class userinfo extends AppCompatActivity {
                                 number=(responseJSON.getJSONArray("users").getJSONObject(0).getString("msisdn"));
                                 String urli = new String(responseJSON.getJSONArray("users").getJSONObject(0).getString("img"));
                                 Picasso.with(getApplicationContext()).load(urli).into(imgfinal);
-
-
-
-                        } catch (final JSONException e) {
+                   } catch (final JSONException e) {
                             Log.e("ERROR", "Error parsing JSON: " + e.getMessage());
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -285,7 +279,7 @@ public class userinfo extends AppCompatActivity {
                         try {
                             if (response.has("review")) {
                                 JSONArray reviewArray = response.getJSONArray("review");
-
+                                arrayReview.clear();
                                 for (int i=0;i<reviewArray.length();i++) {
                                     arrayReview.add(new review(reviewArray.getJSONObject(i)));
                                 }
