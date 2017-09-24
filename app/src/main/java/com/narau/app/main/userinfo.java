@@ -2,6 +2,7 @@ package com.narau.app.main;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -61,6 +62,7 @@ public class userinfo extends AppCompatActivity {
     ImageView imgfinal;
     public String Text;
     public String number;
+    public String fid;
     public int largo;
     public View dialogView;
 
@@ -71,11 +73,15 @@ public class userinfo extends AppCompatActivity {
         arrayReview = new ArrayList<>();
         setContentView(R.layout.activity_userinfo);
         final  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.faba);
+        final  FloatingActionButton fabfb = (FloatingActionButton) findViewById(R.id.fabfb);
         tvtypefinal = (TextViewRoboto) findViewById(R.id.info);
         tvrubrofinal = (TextViewRoboto) findViewById(R.id.tvrubro);
         infofinal= (TextViewRoboto) findViewById(R.id.tvtype);
         imgfinal = (ImageView) findViewById(R.id.profileimage);
         tvnamefinal = (TextViewRobotoBold) findViewById(R.id.tvname);
+
+
+
 
         final LinearLayout main1 = (LinearLayout) findViewById(R.id.main1);
         new CountDownTimer(500,1000){
@@ -85,7 +91,10 @@ public class userinfo extends AppCompatActivity {
             @Override
             public void onFinish(){
                 main1.setVisibility(View.VISIBLE);
-                fab.setVisibility(View.VISIBLE);
+                if (number.matches("\\d+")){fab.setVisibility(View.VISIBLE);
+                    fabfb.setVisibility(View.GONE);}
+                else {fab.setVisibility(View.GONE);
+                fabfb.setVisibility(View.VISIBLE);}
             }
         }.start();
 
@@ -97,6 +106,18 @@ public class userinfo extends AppCompatActivity {
                 Intent i = new Intent(Intent.ACTION_SENDTO, uri);
                 i.setPackage("com.whatsapp");
                 startActivity(Intent.createChooser(i, ""));
+            }
+        });
+        fabfb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isAppInstalled = appInstalledOrNot();
+                if(isAppInstalled) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("fb://profile/" + fid)));
+                } else {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/"+fid));
+                    startActivity(browserIntent);
+                }
             }
         });
         FontAwesome.applyToAllViews(this, findViewById(R.id.main));
@@ -121,6 +142,17 @@ public class userinfo extends AppCompatActivity {
 
             }
         });
+    }
+
+    private boolean appInstalledOrNot() {
+        PackageManager pm = getPackageManager();
+        try {
+            pm.getPackageInfo("com.facebook.android", PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+
+        return false;
     }
 
     @Override
@@ -197,6 +229,7 @@ public class userinfo extends AppCompatActivity {
                                 tvrubrofinal.setText(responseJSON.getJSONArray("users").getJSONObject(0).getString("rubro"));
                                 tvtypefinal.setText(responseJSON.getJSONArray("users").getJSONObject(0).getString("descr"));
                                 number=(responseJSON.getJSONArray("users").getJSONObject(0).getString("msisdn"));
+                                fid=(responseJSON.getJSONArray("users").getJSONObject(0).getString("facebookid"));
                                 String urli = new String(responseJSON.getJSONArray("users").getJSONObject(0).getString("img"));
                                 Picasso.with(getApplicationContext()).load(urli).into(imgfinal);
                    } catch (final JSONException e) {
@@ -308,6 +341,8 @@ public class userinfo extends AppCompatActivity {
     }
 
     public void hasreview(){
+
+
 
     }
 }

@@ -64,5 +64,47 @@
         app:backgroundTint="#4dc247"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/wpp" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabfb"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        app:backgroundTint="#3b5998"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/com_facebook_button_icon" />
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|center"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone"
+        >
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/com_facebook_button_icon"
+            />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/wpp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_phone_in_talk_white_24dp"
+            />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/calendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_calendar_clock"
+            />
+
+    </com.github.clans.fab.FloatingActionMenu>
 
 </android.support.design.widget.CoordinatorLayout>
